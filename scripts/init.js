@@ -27,7 +27,7 @@ let graphical = {
   update() {
     this.width = window.innerWidth * this.scale
     this.height = window.innerHeight * this.scale
-    canvas.setWidth(this.width, this.height)
+    canvas.setPixels(this.width, this.height)
   }
 }
 
