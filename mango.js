@@ -24,8 +24,9 @@ function Mango() {
     },
     idStorage: [],
     version: 1.0,
-    dev_version: "1.9.26_Dev",
-    setWidth: function(w, h) {
+    dev_version: "1.9.29",
+    setPixels: function(w, h) {
+      this.isCanvasFilled = false
       this.canvasElem.width = w;
       this.canvasElem.height = h;
     },
@@ -42,7 +43,8 @@ function Mango() {
       }
     },
     fillScreen: function() {
-      this.setWidth(window.innerWidth, window.innerHeight);
+      this.setPixels(window.innerWidth, window.innerHeight);
+      this.isCanvasFilled = true
       var myStyle = document.createElement("style");
       myStyle.innerHTML = `
         body {
@@ -61,7 +63,7 @@ function Mango() {
         this.name = name == undefined ? 'NAME' : name;
         canvas.layerStore.push(this)
       }
-      name = 'NAME';
+      name = 'LAYER_NAME';
       entities = [];
       index = canvas.layerIndex += 1;
       zIndex = 0;
@@ -196,17 +198,21 @@ function Mango() {
 
       this.store.forEach(function(layer, layerIndex) {
         if (layer.entities) {
+          layer.entities.sort(function(a, b){
+            return a.z - b.z;
+          })
+          
           layer.entities.forEach(function(data, dataIndex) {
             ctx.beginPath();
-            eval(data.onupdated)
+            data.onupdated()
             if (data._inited == undefined) {
-              eval(data.oninit)
+              data.oninit()
             }
             data._inited = true
 
             if (data.render == true) {
               if (data.afterScript == true) {
-                eval(data.script)
+                typeof data.script == 'string' ? eval(data.script) : data.script()
               }
 
               switch (data.type) {
@@ -504,8 +510,8 @@ function Mango() {
                   ctx.shadowOffsetX = data.shadowX;
                   ctx.shadowOffsetY = data.shadowY;
                   // data.afterClip ? ctx.clip() : null;
-                  ctx.stroke(new Path2D(data.path));
-                  ctx.fill(new Path2D(data.path));
+                  ctx.stroke(typeof data.path == 'string' ? new Path2D(data.path) : data.path);
+                  ctx.fill(typeof data.path == 'string' ? new Path2D(data.path) : data.path);
                   ctx.restore();
                   break;
               }
@@ -550,6 +556,7 @@ function Mango() {
       this.path = '';
       this.img = new Image();
       this.number = canvas.app.indexEntity++;
+      this.z = this.number
       this.id = canvas.id();
       this.render = true;
       this.imageURl = "NOT_FOUND_IMAGE_URL";
@@ -560,8 +567,8 @@ function Mango() {
       this.shadowY = 0;
       this.onupdated = function() {
 
-        },
-        this.update = this.onupdated
+      }
+      this.update = this.onupdated
       this.oninit = function() {}
       this.init = this.oninit
       this.script = '';
@@ -587,15 +594,27 @@ function Mango() {
       this.dy = 0;
       this.dWidth = 100;
       this.dHeight = 100;
+      this.layer = canvas.activatedLayer
       this.name = "NOT_NAME_SETTELD";
       this.destroy = function() {
-        canvas.store.splice(this.number, 1);
-        canvas.idStorage.splice(this.number, 1);
+        var ent = null
         var self = this;
+        canvas.store.forEach(function(layer, lI) {
+          if (self.layer.id == layer.id) {
+            layer.entities.forEach(function(entity, eI) {
+              if (self.id == entity.id) {
+                ent = entity
+                layer.entities.splice(eI, 1)
 
-        Object.keys(this).forEach(function(v, i) {
-          self[v] = undefined;
-        });
+                Object.keys(self).forEach(function(v, i) {
+                  delete self[v];
+                });
+              }
+            })
+          }
+        })
+        //canvas.store.splice(this.number, 1);
+        canvas.idStorage.splice(this.number, 1);
       };
       this.shadow = 0;
       this.physics = {
@@ -649,8 +668,8 @@ function Mango() {
               e = e.changedTouches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x-(elem.offsetLeft-(elem.offsetWidth / 2)))
-              y = (y-(elem.offsetTop-(elem.offsetHeight / 2)))
+              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
+              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e1)
               }
@@ -660,9 +679,9 @@ function Mango() {
               e = e.touches[0]
               var y = e.clientY;
               var x = e.clientX;
-              x = (x-(elem.offsetLeft-(elem.offsetWidth / 2)))
-              y = (y-(elem.offsetTop-(elem.offsetHeight / 2)))
-              
+              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
+              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e)
               }
@@ -708,8 +727,8 @@ function Mango() {
               e = e.changedTouches[0];
               var y = e.clientY;
               var x = e.clientX;
-              x = (x-(elem.offsetLeft-(elem.offsetWidth / 2)))
-              y = (y-(elem.offsetTop-(elem.offsetHeight / 2)))
+              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
+              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e1)
               }
@@ -719,9 +738,9 @@ function Mango() {
               e = e.touches[0]
               var y = e.clientY;
               var x = e.clientX;
-              x = (x-(elem.offsetLeft-(elem.offsetWidth / 2)))
-              y = (y-(elem.offsetTop-(elem.offsetHeight / 2)))
-              
+              x = (x - (elem.offsetLeft - (elem.offsetWidth / 2)))
+              y = (y - (elem.offsetTop - (elem.offsetHeight / 2)))
+
               if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
                 callback(e1)
               }
@@ -730,6 +749,7 @@ function Mango() {
         })
       }
     },
+    isCanvasFilled: false,
     clear: function() {
       canvas.canvasCtx.clearRect(
         0,
@@ -1114,6 +1134,7 @@ function Mango() {
       constructor(name) {
         name == undefined ? null : this.name = name
       }
+      type = 'eGroup'
       name = null;
       entities = [];
       add(entity) {
