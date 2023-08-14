@@ -1,0 +1,1 @@
+scripts.connect('scripts/classes/looper.js')
