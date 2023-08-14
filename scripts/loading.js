@@ -25,3 +25,8 @@ scripts.intervals.push(setInterval(function(){
   ]).gradient
 
 }, 100))
+
+setTimeout(function(){
+  scripts.pause()
+  scripts.play()
+}, 3000)

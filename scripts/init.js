@@ -31,12 +31,18 @@ let graphical = {
   }
 }
 
+
 let scripts = {
   intervals: [],
   timeouts: [],
   stoppedLoops: [],
   stoppedIntervals: [],
   stoppedTimeOuts: [],
+  connect(url){
+    var script = document.createElement('script')
+    script.src = url
+    document.body.appendChild(script)
+  },
   pause(){
     this.stoppedLoops = canvas.loopers
     canvas.loopers = []
@@ -48,10 +54,16 @@ let scripts = {
     
     this.stoppedTimeOuts = this.timeouts
     this.timeouts.forEach(function(value){
-      clearInterval(value)
+      clearTimeout(value)
     })
+  },
+  play(){
+    canvas.loopers = this.stoppedLoops
+    console.log(this.intervals, this.stoppedIntervals);
   }
 }
+
+scripts.connect('scripts/classes/class.app.js')
 
 graphical.scale = 5
 graphical.update()
