@@ -5,7 +5,13 @@ var grd = canvas.app.createGradient(0, 0, 100, 100, [
   'black'
   ])
 
-
+new entity({
+  type: 'image',
+  imageSizeAuto: true,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  imageURl: 'images/thumbnail/temp.jpg'
+})
   
 var box = new entity({
   width: 100,

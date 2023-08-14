@@ -65,7 +65,7 @@ let scripts = {
 
 scripts.connect('scripts/classes/class.app.js')
 
-graphical.scale = 5
+graphical.scale = 3
 graphical.update()
 
 canvas.addLoop(function() {
