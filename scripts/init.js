@@ -33,33 +33,38 @@ let graphical = {
 
 
 let scripts = {
-  intervals: [],
-  timeouts: [],
+  loopers: [],
   stoppedLoops: [],
-  stoppedIntervals: [],
-  stoppedTimeOuts: [],
-  connect(url){
+  stoppedLoopers: [],
+  connect(url) {
     var script = document.createElement('script')
     script.src = url
     document.body.appendChild(script)
   },
-  pause(){
+  pause() {
     this.stoppedLoops = canvas.loopers
     canvas.loopers = []
     
-    this.stoppedIntervals = this.intervals
-    this.intervals.forEach(function(value){
-      clearInterval(value)
-    })
-    
-    this.stoppedTimeOuts = this.timeouts
-    this.timeouts.forEach(function(value){
-      clearTimeout(value)
+    this.stoppedLoopers.forEach(function(value){
+      if (value.isLoop == true) {
+        clearInterval(value.handleCode)
+      } else {
+        clearTimeout(value.handleCode)
+      }
     })
   },
-  play(){
+  play() {
     canvas.loopers = this.stoppedLoops
-    console.log(this.intervals, this.stoppedIntervals);
+    
+    var self = this
+    this.loopers.forEach(function(value) {
+      if (value.isLoop == true) {
+        value.handleCode = setInterval(value.handle, value.timeStamp)
+      } else {
+        value.handleCode = setTimeout(value.handle, value.timeStamp)
+      }
+    })
+    
   }
 }
 

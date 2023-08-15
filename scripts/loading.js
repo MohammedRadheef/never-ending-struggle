@@ -1,3 +1,5 @@
+scripts.connect('scripts/classes/class.app.js');
+
 var grd = canvas.app.createGradient(0, 0, 100, 100, [
   0.1, 
   'red',
@@ -21,7 +23,7 @@ var box = new entity({
 
 var i = 0, color = app.randomColor()
 
-scripts.intervals.push(setInterval(function(){
+scripts.loopers.push(new LooperScript(function(){
   i += 0.1
   box.data.fill = canvas.app.createGradient(0, 0, 100, 100, [
   i % 1, 
@@ -30,7 +32,7 @@ scripts.intervals.push(setInterval(function(){
   color
   ]).gradient
 
-}, 100))
+}, true, 100))
 
 setTimeout(function(){
   scripts.pause()
