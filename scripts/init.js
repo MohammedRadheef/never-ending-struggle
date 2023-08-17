@@ -79,10 +79,10 @@ let scripts = {
   }
 }
 
-scripts.connect('scripts/classes/class.app.js')
+scripts.connect('scripts/basic.script.loader.js')
 scripts.play()
 
-graphical.scale = 3
+graphical.scale = 4
 graphical.update()
 
 canvas.addLoop(function() {
