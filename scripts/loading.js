@@ -1,40 +1,46 @@
-scripts.connect('scripts/classes/class.app.js');
-
-var grd = canvas.app.createGradient(0, 0, 100, 100, [
-  0.1, 
+var loadingPageScript = new MangoScript('loading', function() {
+  
+  var grd = canvas.app.createGradient(0, 0, 100, 100, [
+  0.1,
   'red',
   1,
   'black'
   ])
 
-new entity({
-  type: 'image',
-  imageSizeAuto: true,
-  width: window.innerWidth,
-  height: window.innerHeight,
-  imageURl: 'images/thumbnail/temp.jpg'
-})
-  
-var box = new entity({
-  width: 100,
-  height: 100,
-  fill: grd.gradient
-})
+  new entity({
+    type: 'image',
+    imageSizeAuto: true,
+    width: window.innerWidth,
+    height: window.innerHeight,
+    imageURl: 'images/thumbnail/temp.jpg'
+  })
 
-var i = 0, color = app.randomColor()
+  var box = new entity({
+    width: 100,
+    height: 100,
+    fill: grd.gradient
+  })
 
-scripts.loopers.push(new LooperScript(function(){
-  i += 0.1
-  box.data.fill = canvas.app.createGradient(0, 0, 100, 100, [
-  i % 1, 
+  var i = 0,
+    color = app.randomColor()
+
+  scripts.loopers.push(new LooperScript(function() {
+    i += 0.1
+    box.data.fill = canvas.app.createGradient(0, 0, 100, 100, [
+  i % 1,
   app.randomColor(true),
   1,
   color
   ]).gradient
 
-}, true, 100))
+  }, true, 100))
+  
 
-setTimeout(function(){
-  scripts.pause()
-  scripts.play()
-}, 3000)
+  setTimeout(function() {
+    scripts.pause()
+    alert()
+    //scripts.play()
+  }, 3000)
+})
+
+loadingPageScript.run()

@@ -31,21 +31,32 @@ let graphical = {
   }
 }
 
+class MangoScript {
+  constructor(name, handle){
+    this.name = name;
+    this.init = handle
+    scripts.mangoScripts.push(this)
+  }
+  run(){
+    this.init()
+    scripts.pause()
+    scripts.play()
+  }
+}
 
 let scripts = {
   loopers: [],
-  stoppedLoops: [],
-  stoppedLoopers: [],
+  mangoScripts: [],
   connect(url) {
     var script = document.createElement('script')
     script.src = url
     document.body.appendChild(script)
+    return script
   },
   pause() {
-    this.stoppedLoops = canvas.loopers
-    canvas.loopers = []
+    canvas.end_loop()
     
-    this.stoppedLoopers.forEach(function(value){
+    this.loopers.forEach(function(value){
       if (value.isLoop == true) {
         clearInterval(value.handleCode)
       } else {
@@ -54,7 +65,7 @@ let scripts = {
     })
   },
   play() {
-    canvas.loopers = this.stoppedLoops
+    canvas.start_loop()
     
     var self = this
     this.loopers.forEach(function(value) {
@@ -69,6 +80,7 @@ let scripts = {
 }
 
 scripts.connect('scripts/classes/class.app.js')
+scripts.play()
 
 graphical.scale = 3
 graphical.update()
