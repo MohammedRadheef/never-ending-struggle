@@ -9,18 +9,23 @@ class Button {
       x: 10,
       y: 10
     })
+
     this.text = new entity({
       type: 'text',
-      text: 'Loading',
+      text: text,
       fontSize: 15,
       x: 15,
       y: 17,
       z: 100,
       fill: '#fff',
     })
-    
-    this.background.data.width = this.text.data.getWidth() + 5
+
+    this.update = function() {
+      this.background.data.width = this.text.data.getWidth() + 5
+    }
+    this.update()
   }
 }
 
-new Button('null')
+var RX = new Button('can you tell me what is beomax')
+
