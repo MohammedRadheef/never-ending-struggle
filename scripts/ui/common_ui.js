@@ -1,16 +1,29 @@
 class Button {
   constructor(text) {
+    this.x = 10;
+    this.y = 10;
+    this.bgGradient = app.createGradient(50, 10, 50, 70, [
+      0.1,
+      COLOR_GREEN,
+      1,
+    '#ccc'
+      ])
+  
     this.background = new entity({
       width: 30,
       height: 30,
       type: 'roundRect',
-      fill: COLOR_GREEN+'90',
+      fill: this.bgGradient.gradient,
       stroke: COLOR_GREEN,
       strokeWidth: 3,
       z: 100,
-      x: 10,
+      x: this.x,
       arcLevel: 3,
-      y: 10
+      shadow: 10,
+      shadowX: 5,
+      shadowY: -5,
+      shadowColor: '#ffffff50',
+      y: this.y
     })
 
     this.text = new entity({
@@ -37,4 +50,4 @@ class Button {
   }
 }
 
-var RX = new Button('can you receive this message from a boy')
+var RX = new Button('Button')
