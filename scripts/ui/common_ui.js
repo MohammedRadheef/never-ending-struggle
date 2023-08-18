@@ -3,29 +3,38 @@ class Button {
     this.background = new entity({
       width: 30,
       height: 30,
-      fill: '#33333350',
-      stroke: '#111',
+      type: 'roundRect',
+      fill: COLOR_GREEN+'90',
+      stroke: COLOR_GREEN,
+      strokeWidth: 3,
       z: 100,
       x: 10,
+      arcLevel: 3,
       y: 10
     })
 
     this.text = new entity({
       type: 'text',
       text: text,
-      fontSize: 15,
+      fontSize: 'normal ' + 15,
       x: 15,
       y: 17,
       z: 100,
+      font: 'sf',
       fill: '#fff',
     })
 
     this.update = function() {
-      this.background.data.width = this.text.data.getWidth() + 5
+      this.background.data.width = this.text.data.getWidth() + 8
     }
-    this.update()
+
+    var self = this;
+    scripts.loopers.push(
+      new LooperScript(function() {
+        self.update()
+      }, true, 100)
+    )
   }
 }
 
-var RX = new Button('can you tell me what is beomax')
-
+var RX = new Button('can you receive this message from a boy')

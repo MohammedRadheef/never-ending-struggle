@@ -1,0 +1,1 @@
+const COLOR_GREEN = '#47B237'
