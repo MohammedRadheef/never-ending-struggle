@@ -6,9 +6,10 @@ class Button {
       0.1,
       COLOR_GREEN,
       1,
-    '#ccc'
+      COLOR_GREEN
       ])
-  
+    this.padding = 5
+
     this.background = new entity({
       width: 30,
       height: 30,
@@ -22,7 +23,7 @@ class Button {
       shadow: 10,
       shadowX: 5,
       shadowY: -5,
-      shadowColor: '#ffffff50',
+      shadowColor: COLOR_GREEN+'90',
       y: this.y
     })
 
@@ -39,6 +40,26 @@ class Button {
 
     this.update = function() {
       this.background.data.width = this.text.data.getWidth() + 8
+
+      this.background.data.x = this.x
+      this.background.data.y = this.y
+
+      this.text.data.x = this.x + this.padding + 2
+      this.text.data.y = this.y + this.padding + 2
+
+      this.bgGradient = app.createGradient(
+        this.x + (this.background.data.width / 2),
+        this.y,
+        this.x + (this.background.data.width / 2),
+        this.y + this.background.data.height,
+        [
+      0.1,
+      COLOR_GREEN,
+      1,
+      COLOR_GREEN_LIGHT
+      ])
+
+      this.background.data.fill = this.bgGradient.gradient
     }
 
     var self = this;
@@ -51,3 +72,5 @@ class Button {
 }
 
 var RX = new Button('Button')
+RX.x = 50
+RX.y = 100
