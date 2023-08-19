@@ -24,14 +24,16 @@ var loadingPageScript = new MangoScript('loading', function() {
     stroke: '#fff',
     type: 'text',
     splitLine: true,
-    fontSize: 13
+    fontSize: 13,
+    
   })
-  
-  textInfo
   
   var rotateButton = new Button('Full Screen')
   rotateButton.x = (window.innerWidth / 2) - (rotateButton.background.data.width / 2)
   rotateButton.y = ((window.innerHeight / 2) - (rotateButton.background.data.height / 2))+15
+  rotateButton.update()
+  
+  
 })
 
 loadingPageScript.run()
