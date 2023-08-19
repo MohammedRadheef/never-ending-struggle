@@ -32,12 +32,12 @@ let graphical = {
 }
 
 class MangoScript {
-  constructor(name, handle){
+  constructor(name, handle) {
     this.name = name;
     this.init = handle
     scripts.mangoScripts.push(this)
   }
-  run(){
+  run() {
     this.init()
     scripts.pause()
     scripts.play()
@@ -55,8 +55,8 @@ let scripts = {
   },
   pause() {
     canvas.end_loop()
-    
-    this.loopers.forEach(function(value){
+
+    this.loopers.forEach(function(value) {
       if (value.isLoop == true) {
         clearInterval(value.handleCode)
       } else {
@@ -66,7 +66,7 @@ let scripts = {
   },
   play() {
     canvas.start_loop()
-    
+
     var self = this
     this.loopers.forEach(function(value) {
       if (value.isLoop == true) {
@@ -75,7 +75,7 @@ let scripts = {
         value.handleCode = setTimeout(value.handle, value.timeStamp)
       }
     })
-    
+
   }
 }
 
@@ -91,6 +91,9 @@ canvas.addLoop(function() {
   })
 })
 
-canvas.start_loop()
+window.onresize = window.onorientationchange = function() {
+  graphical.update()
+}
 
+canvas.start_loop()
 canvas.specialRender()

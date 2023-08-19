@@ -35,7 +35,7 @@ class Button {
       x: 15,
       y: 17,
       z: 100,
-      font: 'sf',
+      font: 'lg',
       fill: '#fff',
     })
 
@@ -84,6 +84,8 @@ class Button {
 
       this.background.data.fill = this.bgGradient.gradient
     }
+    
+    this.update()
 
     scripts.loopers.push(
       new LooperScript(function() {
@@ -92,7 +94,3 @@ class Button {
     )
   }
 }
-
-var RX = new Button('Download Now')
-RX.x = 50
-RX.y = 100
