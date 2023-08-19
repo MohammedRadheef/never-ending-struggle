@@ -35,7 +35,7 @@ class Button {
       x: 15,
       y: 17,
       z: 100,
-      font: 'sb',
+      font: 'sf',
       fill: '#fff',
     })
 
