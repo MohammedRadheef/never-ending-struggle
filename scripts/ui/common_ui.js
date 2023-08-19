@@ -9,6 +9,7 @@ class Button {
       COLOR_GREEN
       ])
     this.padding = 5
+    
 
     this.background = new entity({
       width: 30,
@@ -20,10 +21,10 @@ class Button {
       z: 100,
       x: this.x,
       arcLevel: 3,
-      shadow: 10,
+      shadow: 3,
       shadowX: 5,
       shadowY: -5,
-      shadowColor: COLOR_GREEN+'90',
+      shadowColor: '#ffffff90',
       y: this.y
     })
 
@@ -34,8 +35,30 @@ class Button {
       x: 15,
       y: 17,
       z: 100,
-      font: 'sf',
+      font: 'sb',
       fill: '#fff',
+    })
+
+    var self = this;
+    this.onclick = ()=>{};
+    this.on = this.background.data.on
+
+    this.background.data.on('click', function(e) {
+      self.bgGradient = app.createGradient(
+        self.x + (self.background.data.width / 2),
+        self.y,
+        self.x + (self.background.data.width / 2),
+        self.y + self.background.data.height,
+        [
+      0.1,
+      COLOR_GREEN_LIGHT,
+      1,
+      COLOR_GREEN
+      ])
+      
+      self.onclick(e)
+
+      self.background.data.fill = self.bgGradient.gradient
     })
 
     this.update = function() {
@@ -62,15 +85,14 @@ class Button {
       this.background.data.fill = this.bgGradient.gradient
     }
 
-    var self = this;
     scripts.loopers.push(
       new LooperScript(function() {
         self.update()
-      }, true, 100)
+      }, true, 190)
     )
   }
 }
 
-var RX = new Button('Button')
+var RX = new Button('Download Now')
 RX.x = 50
 RX.y = 100
