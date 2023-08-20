@@ -1,2 +1,3 @@
 const COLOR_GREEN = '#47B237'
 const COLOR_GREEN_LIGHT = '#61D34F'
+const COLOR_BLUE = '#4978C5'
