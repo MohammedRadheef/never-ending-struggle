@@ -23,6 +23,7 @@ var loadingPageScript = new MangoScript('loading', function() {
     var blankScreen = new entity({
       width: 10000,
       height: 10000,
+      z: 1000
     })
 
     var FULLSCREEN_TEXT_INFO = 'The game requires wider width and full screen,\n click to continue'
@@ -37,6 +38,7 @@ var loadingPageScript = new MangoScript('loading', function() {
       type: 'text',
       splitLine: true,
       fontSize: 13,
+      z: 1001
     })
 
     window.onclick = function() {
@@ -45,10 +47,10 @@ var loadingPageScript = new MangoScript('loading', function() {
       textInfo.data.destroy()
     }
 
-    background_image.data.onupdated = function() {
-      /*background_image.data.width = window.innerWidth - 150
-      background_image.data.height = window.innerHeight - 25*/
-    }
+    /*background_image.data.onupdated = function() {
+      background_image.data.width = window.innerWidth - 150
+      background_image.data.height = window.innerHeight - 25
+    }*/
   }
 })
 
