@@ -1,5 +1,5 @@
 var loadingPageScript = new MangoScript('loading', function() {
-  new entity({
+  var background_image = new entity({
     type: 'image',
     z: -1,
     imageSizeAuto: true,
@@ -8,32 +8,38 @@ var loadingPageScript = new MangoScript('loading', function() {
     imageURl: 'images/thumbnail/temp.jpg'
   })
 
-  new entity({
-    width: 10000,
-    height: 10000,
-  })
-  
-  var FULLSCREEN_TEXT_INFO = 'The game requires wide width and full screen,\n so click the button'
-  
-  var textInfo = new entity({
-    font: 'lg',
-    text: FULLSCREEN_TEXT_INFO,
-    x: 10,
-    y: 10,
-    fill: '#fff',
-    stroke: '#fff',
-    type: 'text',
-    splitLine: true,
-    fontSize: 13,
-    
-  })
-  
-  var rotateButton = new Button('Full Screen')
-  rotateButton.x = (window.innerWidth / 2) - (rotateButton.background.data.width / 2)
-  rotateButton.y = ((window.innerHeight / 2) - (rotateButton.background.data.height / 2))+15
-  rotateButton.update()
-  
-  
+  if (window.innerWidth < 400) {
+
+    var blankScreen = new entity({
+      width: 10000,
+      height: 10000,
+    })
+
+    var FULLSCREEN_TEXT_INFO = 'The game requires wider width and full screen,\n click to continue'
+
+    var textInfo = new entity({
+      font: 'lg',
+      text: FULLSCREEN_TEXT_INFO,
+      x: 10,
+      y: 10,
+      fill: '#fff',
+      stroke: '#fff',
+      type: 'text',
+      splitLine: true,
+      fontSize: 13,
+    })
+
+    window.onclick = function() {
+      fullScreen(document.querySelector('body'))
+      blankScreen.data.destroy()
+      textInfo.data.destroy()
+      
+      background_image.data.onupdated = function(){
+        background_image.data.width = window.innerWidth
+        background_image.data.height = window.innerHeight
+      }
+    }
+  }
 })
 
 loadingPageScript.run()

@@ -95,5 +95,23 @@ window.onresize = window.onorientationchange = function() {
   graphical.update()
 }
 
+function fullScreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.webkitRequestFullscreen) {
+    /* Safari */
+    element.webkitRequestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    /* IE11 */
+    element.msRequestFullscreen();
+  }
+
+  window.screen.orientation.lock("landscape").then(function() {
+    console.log('done');
+  }).catch(function(error) {
+    console.warn(error)
+  });
+}
+
 canvas.start_loop()
 canvas.specialRender()
