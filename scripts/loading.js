@@ -45,6 +45,7 @@ var loadingPageScript = new MangoScript("loading", function () {
       fullScreen(document.querySelector("body"));
       blankScreen.data.destroy();
       textInfo.data.destroy();
+      window.onclick = function (){}
     };
 
     /*background_image.data.onupdated = function() {
