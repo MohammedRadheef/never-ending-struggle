@@ -19,7 +19,6 @@ document.getElementById('btn').onclick = function() {
       var dataModule = 'data:' + file.type + ';base64,'
       msg('file detected')
       var rs = fl.result.slice(fl.result.indexOf(','), fl.result.length)
-      alert(rs)
       msg('creating sheet...')
       var sht = new Blob([rs], {
         type: 'application/image_sheet',
