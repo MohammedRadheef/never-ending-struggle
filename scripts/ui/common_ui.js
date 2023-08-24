@@ -231,18 +231,6 @@ class Selector {
       fill: COLOR_BLACK
     })
 
-    /*this.selectionBG = new entity({
-      x: self.x,
-      y: self.y + 30,
-      type: 'roundRect',
-      width: self.width,
-      arcLevel: 3,
-      fill: '#fff',
-      render: false,
-      stroke: COLOR_TRANSPARENT,
-      height: 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
-    })*/
-
     this.selectionBoxs = []
     this.selectionBoxTexts = []
 
@@ -256,12 +244,12 @@ class Selector {
       width: 50,
       height: 50,
       translate: {
-        x: (this.x + (this.width - 24))*graphical.scale,
-        y: (this.y + 5)* graphical.scale 
+        x: (this.x + (this.width - 24)) * graphical.scale,
+        y: (this.y + 5) * graphical.scale
       },
-      dx: -23,
+      dx: -24,
       dy: -0,
-      rotate: (270*(Math.PI/180)),
+      rotate: (270 * (Math.PI / 180)),
       z: 1000,
       dWidth: 20,
       filter: 'brightness(20%)',
@@ -270,41 +258,84 @@ class Selector {
     })
 
     function bgClick(e) {
+      self.update()
+      self.icon.data.render = false
 
-      //self.selectionBG.data.render = true
-      self.background.data.height = 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
+      self.background.data.height = self.values.length * 30
+      // limited: 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
       self.selectedText.data.render = false
+
+      // limitation are disabled 
+      /*
+      if (150 <= (self.values.length * 30)) {
+        var startY = 0;
+        var count = 0
+
+        function scroll(e) {
+          if ((startY - e.touches[0].clientY) < 0) {
+            console.log('top')
+          } else {
+            // bottom
+            count += 1;
+            if (count == 5) {
+              self.name = self.names[count]
+              if (self.selectionBoxs.length != 0) {
+              clearBoxAndTexts()}
+              addBoxAndTexts()
+              count = 0
+            }
+          }
+        }
+
+        self.background.data.on('touchstart', function(e) {
+          startY = e.clientY
+          self.background.data.on('touchmove', scroll)
+        })
+
+        self.background.data.on('touchend', function() {
+          self.background.data.off('touchmove', scroll)
+        })
+      }
+      */
 
       self.selectionBoxs = []
       self.selectionBoxTexts = []
 
-      self.names.forEach(function(name, nameIndex) {
-        self.selectionBoxs.push(
-          new entity({
-            x: self.x,
-            y: self.y + 30 * (nameIndex + 0),
-            type: 'roundRect',
-            width: self.width,
-            arcLevel: 3,
-            fill: self.name == name ? '#66666630' : '#fff',
-            stroke: COLOR_TRANSPARENT,
-            height: 30,
-            sIndex: nameIndex
-          })
-        )
+      function addBoxAndTexts() {
+        self.names.forEach(function(name, nameIndex) {
+          self.selectionBoxs.push(
+            new entity({
+              x: self.name == name ? self.x+1:self.x,
+              y: self.name == name ? (self.y + 30 * (nameIndex)) + 1: self.y + 30 * (nameIndex),
+              type: 'roundRect',
+              width: self.name == name ? self.width - 2: self.width,
+              arcLevel: 3,
+              fill: self.name == name ? '#66666630' : '#fff',
+              stroke: COLOR_TRANSPARENT,
+              height: 30,
+              //render: *limited* (nameIndex >= 5 ? false : true),
+              sIndex: nameIndex
+            })
+          )
 
-        self.selectionBoxTexts.push(
-          new entity({
-            text: name.slice(0, self.limitChar) + (self.addDots ? '...' : ''),
-            x: self.x + 8,
-            y: self.y + (30 * (nameIndex + 0)) + 8,
-            fontSize: 14,
-            font: 'lg',
-            type: 'text',
-            fill: COLOR_DARK_GREY
-          })
-        )
-      })
+          self.update()
+
+          self.selectionBoxTexts.push(
+            new entity({
+              text: name.slice(0, self.limitChar) + (self.addDots ? '...' : ''),
+              x: self.x + 8,
+              y: self.y + (30 * (nameIndex + 0)) + 8,
+              fontSize: 14,
+              font: 'lg',
+              type: 'text',
+              //render: *limited* (nameIndex >= 5 ? false : true),
+              fill: COLOR_DARK_GREY
+            })
+          )
+        })
+      }
+
+      addBoxAndTexts()
 
       self.selectionBoxs.forEach(function(box, index) {
         box.data.on('touchend', function() {
@@ -316,11 +347,7 @@ class Selector {
         })
       })
 
-      function toDefault() {
-        //self.selectionBG.data.render = false
-        self.background.data.height = 30
-        self.selectedText.data.render = true
-
+      function clearBoxAndTexts() {
         self.selectionBoxs.forEach(function(box) {
           box.data.destroy()
         })
@@ -328,7 +355,14 @@ class Selector {
         self.selectionBoxTexts.forEach(function(text) {
           text.data.destroy()
         })
+      }
 
+      function toDefault() {
+        self.background.data.height = 30
+        self.selectedText.data.render = true
+        self.icon.data.render = true
+
+        clearBoxAndTexts()
 
         self.selectionBoxs = []
         self.selectionBoxTexts = []
@@ -337,11 +371,9 @@ class Selector {
         document.body.removeEventListener('click', toDefault)
       }
 
-      //if (self.selectionBG.data.render == true) {
       setTimeout(function() {
         document.body.addEventListener('click', toDefault)
       }, 5)
-      // }
     }
 
     this.background.data.on('click', bgClick)
@@ -355,7 +387,14 @@ class Selector {
       self.selectedText.data.y = self.y + 8
       self.selectedText.data.text = self.name
 
+      self.icon.data.translate = {
+        x: (self.x + (self.width - 24)) * graphical.scale,
+        y: (self.y + 5) * graphical.scale
+      }
     }
+
+    this.update()
+    this.background.data.onupdated = this.update
   }
 }
 
@@ -364,4 +403,21 @@ var pro = new ProgressBar(40);
 
 new Button("HELLO");
 
-var select = new Selector(['take', 'pick', 'make'], ['tk', 'pk', 'mk'])
+var select = new Selector([
+  'take Game',
+  'pick Game',
+  'make Game',
+  'cake Game',
+  'joke Game',
+  'look Game'
+  ],
+  [
+    'tk',
+    'pk',
+    'mk', 
+    'ck',
+    'jk', 
+    'lk'
+    ])
+select.y = 100
+select.update()
