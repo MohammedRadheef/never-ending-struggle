@@ -250,7 +250,6 @@ class Selector {
       dx: -24,
       dy: -0,
       rotate: (270 * (Math.PI / 180)),
-      z: 1000,
       dWidth: 20,
       filter: 'brightness(20%)',
       dHeight: 20,
@@ -260,8 +259,9 @@ class Selector {
     function bgClick(e) {
       self.update()
       self.icon.data.render = false
-
+      
       self.background.data.height = self.values.length * 30
+      
       // limited: 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
       self.selectedText.data.render = false
 
@@ -313,6 +313,7 @@ class Selector {
               fill: self.name == name ? '#66666630' : '#fff',
               stroke: COLOR_TRANSPARENT,
               height: 30,
+              z: 400,
               //render: *limited* (nameIndex >= 5 ? false : true),
               sIndex: nameIndex
             })
@@ -328,6 +329,7 @@ class Selector {
               fontSize: 14,
               font: 'lg',
               type: 'text',
+              z: 401,
               //render: *limited* (nameIndex >= 5 ? false : true),
               fill: COLOR_DARK_GREY
             })
@@ -420,4 +422,29 @@ var select = new Selector([
     'lk'
     ])
 select.y = 100
+select.limitChar = 8
+select.addDots = true
 select.update()
+
+var select = new Selector([
+  'take Game',
+  'pick Game',
+  'make Game',
+  'cake Game',
+  'joke Game',
+  'look Game'
+  ],
+  [
+    'tk',
+    'pk',
+    'mk', 
+    'ck',
+    'jk', 
+    'lk'
+    ])
+select.y = 150
+select.limitChar = 10
+select.width = 200
+select.addDots = false
+select.update()
+
