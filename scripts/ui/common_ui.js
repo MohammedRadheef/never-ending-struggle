@@ -259,9 +259,9 @@ class Selector {
     function bgClick(e) {
       self.update()
       self.icon.data.render = false
-      
+
       self.background.data.height = self.values.length * 30
-      
+
       // limited: 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
       self.selectedText.data.render = false
 
@@ -305,12 +305,12 @@ class Selector {
         self.names.forEach(function(name, nameIndex) {
           self.selectionBoxs.push(
             new entity({
-              x: self.name == name ? self.x+1:self.x,
-              y: self.name == name ? (self.y + 30 * (nameIndex)) + 1: self.y + 30 * (nameIndex),
+              x: self.name == name ? self.x + 1 : self.x,
+              y: self.name == name ? (self.y + 30 * (nameIndex)) + 1 : self.y + 30 * (nameIndex),
               type: 'roundRect',
-              width: self.name == name ? self.width - 2: self.width,
+              width: self.name == name ? self.width - 2 : self.width,
               arcLevel: 3,
-              fill: self.name == name ? '#66666630' : '#fff',
+              fill: self.name == name ? '#E4E4E4' : '#fff',
               stroke: COLOR_TRANSPARENT,
               height: 30,
               z: 400,
@@ -400,11 +400,11 @@ class Selector {
   }
 }
 
-class TextInput{
-  constructor(type = 'number' || 'text' , placeholder = ''){
+class TextInput {
+  constructor(type = 'number' || 'text', placeholder = '') {
     this.placeholder = placeholder
     this.input = app.HTML.input(type, 0, 0)
-    this.input.id = 'ID'+Math.floor(Math.random()*99999)
+    this.input.id = 'ID' + Math.floor(Math.random() * 99999)
     this.input.style.opacity = '0%'
     this.input.style.position = 'fixed'
     this.input.style.top = '-1000px'
@@ -413,7 +413,7 @@ class TextInput{
     this.y = 50;
     this.width = 140;
     this.value = this.input.value
-    
+
     this.background = new entity({
       type: 'roundRect',
       x: this.x,
@@ -426,6 +426,17 @@ class TextInput{
       fill: '#fff',
     })
 
+    this.cursor = new entity({
+      text: '|',
+      x: this.x + 8,
+      y: this.y + 8,
+      fontSize: 'bold ' + 14,
+      font: 'lg',
+      type: 'text',
+      render: false,
+      fill: COLOR_BLACK
+    })
+
     this.text = new entity({
       text: this.value,
       x: this.x + 8,
@@ -435,7 +446,7 @@ class TextInput{
       type: 'text',
       fill: COLOR_BLACK
     })
-    
+
     this.placeholderText = new entity({
       text: this.placeholder,
       x: this.x + 8,
@@ -443,31 +454,62 @@ class TextInput{
       fontSize: 14,
       font: 'lg',
       type: 'text',
-      fill: COLOR_DARK_GREY+'80'
+      fill: COLOR_DARK_GREY + '80'
     })
-    
+
     var self = this;
-    
-    this.background.data.on('click', function(){
+
+    this.background.data.on('click', function() {
       self.input.focus()
-      self.input.click()
-      
+      self.cursor.data.render = true
     })
-    
-    this.update = function(){
+
+    this.TEXT_WIDTH = new entity({
+      text: 'a',
+      fontSize: 14,
+      font: 'lg',
+      type: 'text',
+      fill: COLOR_BLACK
+    }, false).data.getWidth()
+
+    this.animationCur = true
+
+    this.update = function() {
       self.background.data.x = self.x
       self.background.data.y = self.y
       self.background.data.width = self.width
-      
+
       self.text.data.x = self.x + 8
       self.text.data.y = self.y + 8
       self.text.data.text = self.input.value
 
-      self.placeholderText.data.x = self.x+8
-      self.placeholderText.data.y = self.y+8
+      self.placeholderText.data.x = self.x + 8
+      self.placeholderText.data.y = self.y + 8
       self.placeholderText.data.text = (self.input.value == '' ? self.placeholder : '')
+
+      self.TEXT_WIDTH = new entity({
+        text: self.input.value,
+        fontSize: 14,
+        font: 'lg',
+        type: 'text',
+        fill: COLOR_BLACK
+      }, false).data.getWidth()
+
+      if (self.animationCur) {
+        self.cursor.data.text = ' '
+        setTimeout(function() {
+          self.animationCur = false
+        }, 300)
+      } else {
+        self.cursor.data.text = '|'
+        setTimeout(function() {
+          self.animationCur = true
+        }, 300)
+      }
+
+      self.cursor.data.x = self.x + (((self.TEXT_WIDTH / self.input.value.length) * self.input.selectionStart)) + 3
     }
-    
+
     this.background.data.onupdated = this.update
   }
 }
@@ -490,9 +532,9 @@ var select = new Selector([
   [
     'tk',
     'pk',
-    'mk', 
+    'mk',
     'ck',
-    'jk', 
+    'jk',
     'lk'
     ])
 select.y = 100
@@ -511,9 +553,9 @@ var select = new Selector([
   [
     'tk',
     'pk',
-    'mk', 
+    'mk',
     'ck',
-    'jk', 
+    'jk',
     'lk'
     ])
 select.y = 150
@@ -521,4 +563,3 @@ select.limitChar = 10
 select.width = 200
 select.addDots = false
 select.update()
-
