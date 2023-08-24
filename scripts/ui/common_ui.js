@@ -54,7 +54,7 @@ class Button {
     this.onclick = () => {};
     this.on = this.background.data.on;
 
-    this.background.data.on("click", function (e) {
+    this.background.data.on("click", function(e) {
       self.bgGradient = app.createGradient(
         self.x + self.background.data.width / 2,
         self.y,
@@ -68,7 +68,7 @@ class Button {
       self.background.data.fill = self.bgGradient.gradient;
     });
 
-    this.update = function () {
+    this.update = function() {
       this.background.data.width = this.text.data.getWidth() + 8;
 
       this.background.data.x = this.x;
@@ -92,7 +92,7 @@ class Button {
 
     scripts.loopers.push(
       new LooperScript(
-        function () {
+        function() {
           self.update();
         },
         true,
@@ -159,7 +159,7 @@ class ProgressBar {
       stroke: "transparent",
     });
 
-    this.update = function () {
+    this.update = function() {
       self.outline.data.width = self.width;
       self.outline.data.height = self.height;
       self.outline.data.x = self.x;
@@ -185,15 +185,177 @@ class ProgressBar {
           COLOR_GREEN,
         ]
       ).gradient),
-        (self.lightbox.data.x = self.x + 4);
+      (self.lightbox.data.x = self.x + 4);
       self.lightbox.data.y = self.y + 3;
       self.lightbox.data.width = (self.width / 102.5) * self.value - 7;
       self.lightbox.data.height = (this.height / 100) * 20;
     };
 
-    this.track.data.onupdated = function () {
+    this.track.data.onupdated = function() {
       self.update();
     };
+  }
+}
+
+class Selector {
+  constructor(names = ['null'], values = ['null']) {
+    this.x = 50;
+    this.y = 50;
+    this.width = 140;
+    this.names = names
+    this.values = values
+    this.value = values[0]
+    this.name = names[0]
+    this.onchange = () => {}
+    var self = this;
+
+    this.background = new entity({
+      type: 'roundRect',
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: 30,
+      arcLevel: 3,
+      strokeWidth: 3,
+      stroke: '#ccc',
+      fill: '#fff',
+    })
+
+    this.selectedText = new entity({
+      text: this.name,
+      x: this.x + 8,
+      y: this.y + 8,
+      fontSize: 14,
+      font: 'lg',
+      type: 'text',
+      fill: COLOR_BLACK
+    })
+
+    /*this.selectionBG = new entity({
+      x: self.x,
+      y: self.y + 30,
+      type: 'roundRect',
+      width: self.width,
+      arcLevel: 3,
+      fill: '#fff',
+      render: false,
+      stroke: COLOR_TRANSPARENT,
+      height: 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
+    })*/
+
+    this.selectionBoxs = []
+    this.selectionBoxTexts = []
+
+    this.limitChar = 30
+    this.addDots = false
+
+    this.icon = new entity({
+      type: 'image',
+      x: 425,
+      y: 63,
+      width: 50,
+      height: 50,
+      translate: {
+        x: (this.x + (this.width - 24))*graphical.scale,
+        y: (this.y + 5)* graphical.scale 
+      },
+      dx: -23,
+      dy: -0,
+      rotate: (270*(Math.PI/180)),
+      z: 1000,
+      dWidth: 20,
+      filter: 'brightness(20%)',
+      dHeight: 20,
+      imageURl: 'images/ui/icons.png'
+    })
+
+    function bgClick(e) {
+
+      //self.selectionBG.data.render = true
+      self.background.data.height = 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
+      self.selectedText.data.render = false
+
+      self.selectionBoxs = []
+      self.selectionBoxTexts = []
+
+      self.names.forEach(function(name, nameIndex) {
+        self.selectionBoxs.push(
+          new entity({
+            x: self.x,
+            y: self.y + 30 * (nameIndex + 0),
+            type: 'roundRect',
+            width: self.width,
+            arcLevel: 3,
+            fill: self.name == name ? '#66666630' : '#fff',
+            stroke: COLOR_TRANSPARENT,
+            height: 30,
+            sIndex: nameIndex
+          })
+        )
+
+        self.selectionBoxTexts.push(
+          new entity({
+            text: name.slice(0, self.limitChar) + (self.addDots ? '...' : ''),
+            x: self.x + 8,
+            y: self.y + (30 * (nameIndex + 0)) + 8,
+            fontSize: 14,
+            font: 'lg',
+            type: 'text',
+            fill: COLOR_DARK_GREY
+          })
+        )
+      })
+
+      self.selectionBoxs.forEach(function(box, index) {
+        box.data.on('touchend', function() {
+          self.name = self.names[index]
+          self.value = self.values[index]
+          self.update()
+          self.onchange()
+          toDefault();
+        })
+      })
+
+      function toDefault() {
+        //self.selectionBG.data.render = false
+        self.background.data.height = 30
+        self.selectedText.data.render = true
+
+        self.selectionBoxs.forEach(function(box) {
+          box.data.destroy()
+        })
+
+        self.selectionBoxTexts.forEach(function(text) {
+          text.data.destroy()
+        })
+
+
+        self.selectionBoxs = []
+        self.selectionBoxTexts = []
+        self.update()
+
+        document.body.removeEventListener('click', toDefault)
+      }
+
+      //if (self.selectionBG.data.render == true) {
+      setTimeout(function() {
+        document.body.addEventListener('click', toDefault)
+      }, 5)
+      // }
+    }
+
+    this.background.data.on('click', bgClick)
+
+    this.update = function() {
+      self.background.data.x = self.x
+      self.background.data.y = self.y
+      self.background.data.width = self.width
+
+      self.selectedText.data.x = self.x + 8
+      self.selectedText.data.y = self.y + 8
+      self.selectedText.data.text = self.name
+
+    }
   }
 }
 
@@ -201,3 +363,5 @@ var pro = new ProgressBar(40);
 (pro.x = 100), (pro.value = 90);
 
 new Button("HELLO");
+
+var select = new Selector(['take', 'pick', 'make'], ['tk', 'pk', 'mk'])
