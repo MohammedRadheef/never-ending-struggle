@@ -400,6 +400,80 @@ class Selector {
   }
 }
 
+class TextInput{
+  constructor(type = 'number' || 'text' , placeholder = ''){
+    this.placeholder = placeholder
+    this.input = app.HTML.input(type, 0, 0)
+    this.input.id = 'ID'+Math.floor(Math.random()*99999)
+    this.input.style.opacity = '0%'
+    this.input.style.position = 'fixed'
+    this.input.style.top = '-1000px'
+    this.input.style.left = '-1000px'
+    this.x = 50;
+    this.y = 50;
+    this.width = 140;
+    this.value = this.input.value
+    
+    this.background = new entity({
+      type: 'roundRect',
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: 30,
+      arcLevel: 3,
+      strokeWidth: 3,
+      stroke: '#ccc',
+      fill: '#fff',
+    })
+
+    this.text = new entity({
+      text: this.value,
+      x: this.x + 8,
+      y: this.y + 8,
+      fontSize: 14,
+      font: 'lg',
+      type: 'text',
+      fill: COLOR_BLACK
+    })
+    
+    this.placeholderText = new entity({
+      text: this.placeholder,
+      x: this.x + 8,
+      y: this.y + 8,
+      fontSize: 14,
+      font: 'lg',
+      type: 'text',
+      fill: COLOR_DARK_GREY+'80'
+    })
+    
+    var self = this;
+    
+    this.background.data.on('click', function(){
+      self.input.focus()
+      self.input.click()
+      
+    })
+    
+    this.update = function(){
+      self.background.data.x = self.x
+      self.background.data.y = self.y
+      self.background.data.width = self.width
+      
+      self.text.data.x = self.x + 8
+      self.text.data.y = self.y + 8
+      self.text.data.text = self.input.value
+
+      self.placeholderText.data.x = self.x+8
+      self.placeholderText.data.y = self.y+8
+      self.placeholderText.data.text = (self.input.value == '' ? self.placeholder : '')
+    }
+    
+    this.background.data.onupdated = this.update
+  }
+}
+
+new TextInput('text', 'type anything...')
+
 var pro = new ProgressBar(40);
 (pro.x = 100), (pro.value = 90);
 
