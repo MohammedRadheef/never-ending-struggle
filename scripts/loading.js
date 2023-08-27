@@ -54,7 +54,7 @@ var loadingPageScript = new MangoScript("loading", function() {
     background_image.data.height = window.innerHeight
   }
 
-  var progressBar = new ProgressBar(20)
+  var progressBar = new ProgressBar(5)
   progressBar.width = 200
   progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
   progressBar.y = (window.innerHeight - 60)
@@ -64,7 +64,7 @@ var loadingPageScript = new MangoScript("loading", function() {
     type: 'text',
     x: (window.innerWidth / 2) - 46,
     y: window.innerHeight - 30,
-    text: 'Loading... (2O%)',
+    text: 'Loading... (5%)',
     font: 'lg',
     fill: '#fff',
     fontSize: 14
@@ -73,10 +73,17 @@ var loadingPageScript = new MangoScript("loading", function() {
   loadingText.data.onupdated = function() {
     loadingText.data.x = (window.innerWidth / 2) - 46
     loadingText.data.y = window.innerHeight - 30
+    loadingText.data.text = ('Loading... ('+progressBar.value+')').replaceAll(0, 'O')
 
     progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
     progressBar.y = (window.innerHeight - 60)
   }
+  
+  // code for loading contents
+  scripts.connect('scripts/functions/readfile.js').onload = function(){
+    progressBar.value = 6
+  }
+  
 
 });
 
