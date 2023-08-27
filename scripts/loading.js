@@ -1,4 +1,4 @@
-var loadingPageScript = new MangoScript("loading", function () {
+var loadingPageScript = new MangoScript("loading", function() {
   var blackScreen = new entity({
     width: 10000,
     height: 10000,
@@ -6,17 +6,17 @@ var loadingPageScript = new MangoScript("loading", function () {
     fill: COLOR_BLUE,
   });
 
-  /*var background_image = new entity({
+  var background_image = new entity({
     type: 'image',
     z: -1,
     imageSizeAuto: true,
-    width: window.innerWidth,
-    height: window.innerHeight,
-    imageURl: 'images/thumbnail/home.jpg',
+    width: window.innerWidth * 0,
+    height: window.innerHeight * 0,
+    imageURl: 'images/thumbnail/castle.jpg',
     filter: 'brightness(100%)',
-    x: 20,
-    y: 20
-  })*/
+    x: 0,
+    y: 0
+  })
 
   if (window.innerWidth < 400) {
     var blankScreen = new entity({
@@ -40,18 +40,18 @@ var loadingPageScript = new MangoScript("loading", function () {
       fontSize: 13,
       z: 1001,
     });
+  }
+  
+  window.onclick = function() {
+    fullScreen(document.querySelector("body"));
+    blankScreen.data.destroy();
+    textInfo.data.destroy();
+    window.onclick = function() {}
+  };
 
-    window.onclick = function () {
-      fullScreen(document.querySelector("body"));
-      blankScreen.data.destroy();
-      textInfo.data.destroy();
-      window.onclick = function (){}
-    };
-
-    /*background_image.data.onupdated = function() {
-      background_image.data.width = window.innerWidth - 150
-      background_image.data.height = window.innerHeight - 25
-    }*/
+  background_image.data.onupdated = function() {
+    background_image.data.width = window.innerWidth
+    background_image.data.height = window.innerHeight
   }
 });
 
