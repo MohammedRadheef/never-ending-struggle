@@ -155,7 +155,7 @@ class ProgressBar {
       type: "roundRect",
       width: (this.width / 102.5) * this.value - 7,
       height: (this.height / 100) * 20,
-      fill: "#ffffff50",
+      fill: "#ffffff80",
       stroke: "transparent",
     });
 

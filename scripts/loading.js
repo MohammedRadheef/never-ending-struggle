@@ -13,7 +13,7 @@ var loadingPageScript = new MangoScript("loading", function() {
     width: window.innerWidth * 0,
     height: window.innerHeight * 0,
     imageURl: 'images/thumbnail/castle.jpg',
-    filter: 'brightness(100%)',
+    filter: 'brightness(80%)',
     x: 0,
     y: 0
   })
@@ -41,7 +41,7 @@ var loadingPageScript = new MangoScript("loading", function() {
       z: 1001,
     });
   }
-  
+
   window.onclick = function() {
     fullScreen(document.querySelector("body"));
     blankScreen.data.destroy();
@@ -53,6 +53,31 @@ var loadingPageScript = new MangoScript("loading", function() {
     background_image.data.width = window.innerWidth
     background_image.data.height = window.innerHeight
   }
+
+  var progressBar = new ProgressBar(20)
+  progressBar.width = 200
+  progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
+  progressBar.y = (window.innerHeight - 60)
+  progressBar.outline.data.fill = '#4C802F'
+
+  var loadingText = new entity({
+    type: 'text',
+    x: (window.innerWidth / 2) - 46,
+    y: window.innerHeight - 30,
+    text: 'Loading... (2O%)',
+    font: 'lg',
+    fill: '#fff',
+    fontSize: 14
+  })
+
+  loadingText.data.onupdated = function() {
+    loadingText.data.x = (window.innerWidth / 2) - 46
+    loadingText.data.y = window.innerHeight - 30
+
+    progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
+    progressBar.y = (window.innerHeight - 60)
+  }
+
 });
 
 loadingPageScript.run();
