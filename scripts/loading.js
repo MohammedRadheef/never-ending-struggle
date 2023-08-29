@@ -73,17 +73,28 @@ var loadingPageScript = new MangoScript("loading", function() {
   loadingText.data.onupdated = function() {
     loadingText.data.x = (window.innerWidth / 2) - 46
     loadingText.data.y = window.innerHeight - 30
-    loadingText.data.text = ('Loading... ('+progressBar.value+')').replaceAll(0, 'O')
+    loadingText.data.text = ('Loading... (' + progressBar.value.toFixed(1) + ')').replaceAll(0, 'O')
 
     progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
     progressBar.y = (window.innerHeight - 60)
   }
-  
+
   // code for loading contents
-  scripts.connect('scripts/functions/readfile.js').onload = function(){
-    progressBar.value = 6
+  scripts.connect('scripts/functions/readfile.js').onload = function() {
+    progressBar.value = 6;
+    scripts.connect('scripts/classes/source.js').onload = function() {
+      scripts.connect('scripts/property/common.sources.js').onload = function() {
+        progressBar.value = 7;
+        commonSources.forEach(function(src) {
+          src.load()
+          src.onload = function() {
+            progressBar.value += (20 / commonSources.length)
+          }
+        })
+      }
+    }
   }
-  
+
 
 });
 

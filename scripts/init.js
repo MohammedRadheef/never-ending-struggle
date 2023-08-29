@@ -81,7 +81,7 @@ let scripts = {
 scripts.connect("scripts/basic.script.loader.js");
 scripts.play();
 
-graphical.scale = 4;
+graphical.scale = 2;
 graphical.update();
 
 canvas.addLoop(function () {
@@ -117,3 +117,4 @@ function fullScreen(element) {
 
 canvas.start_loop();
 canvas.specialRender();
+
