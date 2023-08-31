@@ -5,7 +5,8 @@ class GameSource {
     this.type = type
   }
   loaded = false;
-  tag = document.createElement('img')
+  tag = document.createElement('img');
+  error = false;
   load() {
     var self = this;
     if (self.type == 'image') {

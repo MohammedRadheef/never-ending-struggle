@@ -513,4 +513,3 @@ class TextInput {
     this.background.data.onupdated = this.update
   }
 }
-

@@ -83,19 +83,20 @@ var loadingPageScript = new MangoScript("loading", function() {
   scripts.connect('scripts/functions/readfile.js').onload = function() {
     progressBar.value = 6;
     scripts.connect('scripts/classes/source.js').onload = function() {
-      scripts.connect('scripts/property/common.sources.js').onload = function() {
-        progressBar.value = 7;
-        commonSources.forEach(function(src) {
-          src.load()
-          src.onload = function() {
-            progressBar.value += (20 / commonSources.length)
-          }
-        })
+      scripts.connect('scripts/classes/sound.js').onload = function() {
+        new Sound('music/m.mp3').play()
+        scripts.connect('scripts/property/common.sources.js').onload = function() {
+          progressBar.value = 7;
+          commonSources.forEach(function(src) {
+            src.load()
+            src.onload = function() {
+              progressBar.value += (20 / commonSources.length)
+            }
+          })
+        }
       }
     }
   }
-
-
 });
 
 loadingPageScript.run();
