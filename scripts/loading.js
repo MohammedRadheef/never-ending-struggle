@@ -78,22 +78,42 @@ var loadingPageScript = new MangoScript("loading", function() {
     progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
     progressBar.y = (window.innerHeight - 60)
   }
+  
+  function updateLoad(){
+    if (progressBar.value >= 100) {
+      alert('LOAD COMPLETED \n\n sorry, this is development mode')
+    }
+  }
 
   // code for loading contents
   scripts.connect('scripts/functions/readfile.js').onload = function() {
     progressBar.value = 6;
     scripts.connect('scripts/classes/source.js').onload = function() {
       scripts.connect('scripts/classes/sound.js').onload = function() {
-        new Sound('music/m.mp3').play()
+        // new Sound('music/m.mp3').play()
         scripts.connect('scripts/property/common.sources.js').onload = function() {
           progressBar.value = 7;
+          updateLoad();
+          
           commonSources.forEach(function(src) {
             src.load()
             src.onload = function() {
-              progressBar.value += (20 / commonSources.length)
+              progressBar.value += (50 / commonSources.length)
+              updateLoad();
             }
           })
         }
+        
+        scripts.connect('scripts/property/src_level_1.js').onload = function() {
+          sourceLevel_1.forEach(function(src) {
+            src.load()
+            src.onload = function() {
+              progressBar.value += (47 / sourceLevel_1.length)
+              updateLoad()
+            }
+          })
+        }
+        
       }
     }
   }
