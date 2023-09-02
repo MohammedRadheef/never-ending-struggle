@@ -81,7 +81,7 @@ let scripts = {
 scripts.connect("scripts/basic.script.loader.js");
 scripts.play();
 
-graphical.scale = 4;
+graphical.scale = 1.5;
 graphical.update();
 
 canvas.addLoop(function () {
@@ -117,3 +117,49 @@ function fullScreen(element) {
 
 canvas.start_loop();
 canvas.specialRender();
+
+/*
+
+var development = {
+  x: 0,
+  y: 0,
+  msg: 'Running'
+}
+
+function msg(msg){
+  development.msg = msg
+}
+
+var textLog = new entity({
+  type: 'text',
+  text: 'app\nDem',
+  x: 8,
+  y: 8,
+  z: 1000000,
+  fontSize: 13,
+  splitLine: true,
+  fill: '#fff',
+  font: 'monospace',
+  shadow: 5
+})
+
+textLog.data.onupdated = function(){
+  var TEXT_LOG = `
+  x: ${development.x}
+  y: ${development.y}
+  
+  ${development.msg}`
+  textLog.data.text = TEXT_LOG
+}
+
+window.ontouchmove = window.ontouchstart = window.onmousemove = function(e){
+  if(e.changedTouches){
+    e = e.changedTouches[0]
+  } else if (e.touches){
+    e = e.touches[0]
+  } 
+  
+  development.x = e.clientX 
+  development.y = e.clientY
+}
+*/

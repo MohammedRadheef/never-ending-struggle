@@ -155,7 +155,7 @@ class ProgressBar {
       type: "roundRect",
       width: (this.width / 102.5) * this.value - 7,
       height: (this.height / 100) * 20,
-      fill: "#ffffff50",
+      fill: "#ffffff80",
       stroke: "transparent",
     });
 
@@ -513,53 +513,3 @@ class TextInput {
     this.background.data.onupdated = this.update
   }
 }
-
-new TextInput('text', 'type anything...')
-
-var pro = new ProgressBar(40);
-(pro.x = 100), (pro.value = 90);
-
-new Button("HELLO");
-
-var select = new Selector([
-  'take Game',
-  'pick Game',
-  'make Game',
-  'cake Game',
-  'joke Game',
-  'look Game'
-  ],
-  [
-    'tk',
-    'pk',
-    'mk',
-    'ck',
-    'jk',
-    'lk'
-    ])
-select.y = 100
-select.limitChar = 8
-select.addDots = true
-select.update()
-
-var select = new Selector([
-  'take Game',
-  'pick Game',
-  'make Game',
-  'cake Game',
-  'joke Game',
-  'look Game'
-  ],
-  [
-    'tk',
-    'pk',
-    'mk',
-    'ck',
-    'jk',
-    'lk'
-    ])
-select.y = 150
-select.limitChar = 10
-select.width = 200
-select.addDots = false
-select.update()
