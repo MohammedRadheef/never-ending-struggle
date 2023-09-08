@@ -78,10 +78,11 @@ var loadingPageScript = new MangoScript("loading", function() {
     progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
     progressBar.y = (window.innerHeight - 60)
   }
-  
-  function updateLoad(){
+
+  function updateLoad() {
     if (progressBar.value >= 100) {
-      alert('LOAD COMPLETED \n\n sorry, this is development mode')
+      console.log(canvas.getEntityByName('GK'));
+      console.log('LOAD COMPLETED \n\n sorry, this is development mode')
     }
   }
 
@@ -94,26 +95,27 @@ var loadingPageScript = new MangoScript("loading", function() {
         scripts.connect('scripts/property/common.sources.js').onload = function() {
           progressBar.value = 7;
           updateLoad();
-          
-          commonSources.forEach(function(src) {
+
+          commonSources.forEach(function(src, srcIndex) {
             src.load()
             src.onload = function() {
+              msg(src);
               progressBar.value += (50 / commonSources.length)
               updateLoad();
+              if (srcIndex == (commonSources.length - 1)) {
+                scripts.connect('scripts/property/src_level_1.js').onload = function() {
+                  sourceLevel_1.forEach(function(src_lvl_1) {
+                    src_lvl_1.load()
+                    src_lvl_1.onload = function() {
+                      progressBar.value += (43 / sourceLevel_1.length)
+                      updateLoad()
+                    }
+                  })
+                }
+              }
             }
           })
         }
-        
-        scripts.connect('scripts/property/src_level_1.js').onload = function() {
-          sourceLevel_1.forEach(function(src) {
-            src.load()
-            src.onload = function() {
-              progressBar.value += (47 / sourceLevel_1.length)
-              updateLoad()
-            }
-          })
-        }
-        
       }
     }
   }
