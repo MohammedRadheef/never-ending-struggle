@@ -81,7 +81,6 @@ var loadingPageScript = new MangoScript("loading", function() {
 
   function updateLoad() {
     if (progressBar.value >= 100) {
-      console.log(canvas.getEntityByName('GK'));
       console.log('LOAD COMPLETED \n\n sorry, this is development mode')
     }
   }
@@ -99,16 +98,18 @@ var loadingPageScript = new MangoScript("loading", function() {
           commonSources.forEach(function(src, srcIndex) {
             src.load()
             src.onload = function() {
-              msg(src);
               progressBar.value += (50 / commonSources.length)
               updateLoad();
               if (srcIndex == (commonSources.length - 1)) {
                 scripts.connect('scripts/property/src_level_1.js').onload = function() {
-                  sourceLevel_1.forEach(function(src_lvl_1) {
+                  sourceLevel_1.forEach(function(src_lvl_1, src_lvl_1_index) {
                     src_lvl_1.load()
                     src_lvl_1.onload = function() {
                       progressBar.value += (43 / sourceLevel_1.length)
                       updateLoad()
+                      if ((sourceLevel_1.length-1)==src_lvl_1_index) {
+                        
+                      }
                     }
                   })
                 }
