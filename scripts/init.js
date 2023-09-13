@@ -85,8 +85,12 @@ graphical.scale = 1.5;
 graphical.update();
 
 canvas.addLoop(function() {
-  canvas.entityStore.forEach(function(entity) {
-    entity.scale = { x: graphical.scale, y: graphical.scale };
+  canvas.entityStore.forEach(function(entity, entityIndex) {
+    if (entity.type) {
+      entity.scale = { x: graphical.scale, y: graphical.scale }
+    } else {
+      canvas.entityStore.splice((entityIndex), 1)
+    };
   });
 });
 

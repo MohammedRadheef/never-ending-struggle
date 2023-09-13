@@ -194,6 +194,13 @@ class ProgressBar {
     this.track.data.onupdated = function() {
       self.update();
     };
+    
+    this.destroy = function(){
+      var self = this;
+      self.lightbox.data.destroy()
+      self.track.data.destroy()
+      self.outline.data.destroy()
+    }
   }
 }
 
