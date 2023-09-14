@@ -12,7 +12,7 @@ var loadingPageScript = new MangoScript("loading", function() {
     imageSizeAuto: true,
     width: window.innerWidth * 0,
     height: window.innerHeight * 0,
-    imageURl: 'images/thumbnail/ca2k.png',
+    imageURL: 'images/thumbnail/ca2k.png',
     filter: 'brightness(80%)',
     x: 0,
     y: 0

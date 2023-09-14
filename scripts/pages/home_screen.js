@@ -4,7 +4,7 @@ const homeMangoScript = new MangoScript('homeUI', function() {
     width: window.innerWidth,
     height: window.innerHeight,
     imageSizeAuto: true,
-    mergeImageUrl: false,
+    mergeimageURL: false,
     img: SRC_HOME_BG_IMG.tag,
     z: 0,
   })
@@ -19,7 +19,7 @@ const homeMangoScript = new MangoScript('homeUI', function() {
     dy: 3,
     width: 50,
     height: 50,
-    mergeImageUrl: false,
+    mergeimageURL: false,
     img: SRC_ICON_SHEET.tag,
   })
 
@@ -33,7 +33,7 @@ const homeMangoScript = new MangoScript('homeUI', function() {
     dy: 3,
     width: 50,
     height: 50,
-    mergeImageUrl: false,
+    mergeimageURL: false,
     img: SRC_ICON_SHEET.tag,
   })
 

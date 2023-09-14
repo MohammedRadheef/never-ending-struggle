@@ -260,7 +260,7 @@ class Selector {
       dWidth: 20,
       filter: 'brightness(20%)',
       dHeight: 20,
-      imageURl: 'images/ui/icons.png'
+      imageURL: 'images/ui/icons.png'
     })
 
     function bgClick(e) {
