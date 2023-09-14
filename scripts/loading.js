@@ -94,7 +94,7 @@ var loadingPageScript = new MangoScript("loading", function() {
     progressBar.value = 6;
     scripts.connect('scripts/classes/source.js').onload = function() {
       scripts.connect('scripts/classes/sound.js').onload = function() {
-        scripts.connect('/scripts/pages/home_screen.js').onload = function() {
+        scripts.connect('scripts/pages/home_screen.js').onload = function() {
           // new Sound('music/m.mp3').play()
           scripts.connect('scripts/property/common.sources.js').onload = function() {
             progressBar.value = 7;
