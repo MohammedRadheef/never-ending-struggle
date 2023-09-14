@@ -1,4 +1,4 @@
-const homeMangoScript = new MangoScript('homeUI', function(){
+const homeMangoScript = new MangoScript('homeUI', function() {
   var background_image = new entity({
     type: 'image',
     width: window.innerWidth,
@@ -8,7 +8,7 @@ const homeMangoScript = new MangoScript('homeUI', function(){
     img: SRC_HOME_BG_IMG.tag,
     z: 0,
   })
-  
+
   var contact_icon = new entity({
     type: 'image',
     dWidth: 35,
@@ -22,7 +22,7 @@ const homeMangoScript = new MangoScript('homeUI', function(){
     mergeImageUrl: false,
     img: SRC_ICON_SHEET.tag,
   })
-  
+
   var settings_icon = new entity({
     type: 'image',
     dWidth: 35,
@@ -36,9 +36,51 @@ const homeMangoScript = new MangoScript('homeUI', function(){
     mergeImageUrl: false,
     img: SRC_ICON_SHEET.tag,
   })
-  
+
   background_image.data.onupdated = function() {
     background_image.data.width = window.innerWidth
     background_image.data.height = window.innerHeight
   }
+
+  var versionText = new entity({
+    type: 'text',
+    x: 6,
+    y: (window.innerHeight - 23),
+    text: 'v1.O',
+    font: 'lg',
+    fill: '#fff',
+    fontSize: 14
+  })
+  
+  var creditsText = new entity({
+    type: 'text',
+    x: (window.innerWidth - 55),
+    y: window.innerHeight - 23,
+    text: 'Credits',
+    font: 'lg',
+    fill: '#fff',
+    fontSize: 14
+  })
+  
+  var cardOffline = new entity({
+    width: 160,
+    height: getPrectage(window.innerHeight, 60),
+    type: 'roundRect',
+    x: getPrectage(window.innerWidth, 30),
+    y: 80,
+    strokeWidth: 5,
+    stroke: COLOR_GREEN,
+    fill: '#444',
+  })
+
+  var cardOnline = new entity({
+    width: 160,
+    height: getPrectage(window.innerHeight, 60),
+    type: 'roundRect',
+    x: getPrectage(window.innerWidth, 30)+190,
+    y: 80,
+    strokeWidth: 5,
+    stroke: COLOR_GREEN,
+    fill: '#333'
+  })
 })
