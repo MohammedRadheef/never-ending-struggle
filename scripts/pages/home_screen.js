@@ -63,14 +63,27 @@ const homeMangoScript = new MangoScript('homeUI', function() {
   })
   
   var cardOffline = new entity({
-    width: 160,
+    width: getPrectage(window.innerWidth,  20),
     height: getPrectage(window.innerHeight, 60),
-    type: 'roundRect',
+    type: 'image',
+    imageSizeAuto: true,
+    imageURL: 'images/ui/color_icons/FrameSquare.png',
     x: getPrectage(window.innerWidth, 30),
     y: 80,
     strokeWidth: 5,
     stroke: COLOR_GREEN,
     fill: '#444',
+  })
+  
+  var IH = new entity({
+    type: 'image',
+    width: 100,
+    height: 100,
+    x: getPrectage(window.innerWidth, 30)+getPrectage(160, 18),
+    y: 130,
+    imageSizeAuto: true,
+    mergeimageURL: false,
+    img: SRC_ICON_HAMMER.tag,
   })
 
   var cardOnline = new entity({
