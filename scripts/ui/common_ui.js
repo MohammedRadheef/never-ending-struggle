@@ -194,6 +194,13 @@ class ProgressBar {
     this.track.data.onupdated = function() {
       self.update();
     };
+    
+    this.destroy = function(){
+      var self = this;
+      self.lightbox.data.destroy()
+      self.track.data.destroy()
+      self.outline.data.destroy()
+    }
   }
 }
 
@@ -253,7 +260,7 @@ class Selector {
       dWidth: 20,
       filter: 'brightness(20%)',
       dHeight: 20,
-      imageURl: 'images/ui/icons.png'
+      imageURL: 'images/ui/icons.png'
     })
 
     function bgClick(e) {

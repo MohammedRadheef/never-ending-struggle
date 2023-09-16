@@ -12,7 +12,7 @@ var loadingPageScript = new MangoScript("loading", function() {
     imageSizeAuto: true,
     width: window.innerWidth * 0,
     height: window.innerHeight * 0,
-    imageURl: 'images/thumbnail/ca2k.png',
+    imageURL: 'images/thumbnail/ca2k.png',
     filter: 'brightness(80%)',
     x: 0,
     y: 0
@@ -78,10 +78,14 @@ var loadingPageScript = new MangoScript("loading", function() {
     progressBar.x = (window.innerWidth / 2) - (progressBar.width / 2)
     progressBar.y = (window.innerHeight - 60)
   }
-  
-  function updateLoad(){
+
+  function updateLoad() {
     if (progressBar.value >= 100) {
-      alert('LOAD COMPLETED \n\n sorry, this is development mode')
+      progressBar.destroy()
+      loadingText.data.destroy()
+      background_image.data.destroy()
+      homeMangoScript.run()
+      console.log('LOAD COMPLETED \n sorry, this is development mode')
     }
   }
 
@@ -90,30 +94,35 @@ var loadingPageScript = new MangoScript("loading", function() {
     progressBar.value = 6;
     scripts.connect('scripts/classes/source.js').onload = function() {
       scripts.connect('scripts/classes/sound.js').onload = function() {
-        // new Sound('music/m.mp3').play()
-        scripts.connect('scripts/property/common.sources.js').onload = function() {
-          progressBar.value = 7;
-          updateLoad();
-          
-          commonSources.forEach(function(src) {
-            src.load()
-            src.onload = function() {
-              progressBar.value += (50 / commonSources.length)
-              updateLoad();
-            }
-          })
+        scripts.connect('scripts/pages/home_screen.js').onload = function() {
+          // new Sound('music/m.mp3').play()
+          scripts.connect('scripts/property/common.sources.js').onload = function() {
+            progressBar.value = 7;
+            updateLoad();
+
+            commonSources.forEach(function(src, srcIndex) {
+              src.load()
+              src.onload = function() {
+                progressBar.value += (50 / commonSources.length)
+                updateLoad();
+                if (srcIndex == (commonSources.length - 1)) {
+                  scripts.connect('scripts/property/src_level_1.js').onload = function() {
+                    sourceLevel_1.forEach(function(src_lvl_1, src_lvl_1_index) {
+                      src_lvl_1.load()
+                      src_lvl_1.onload = function() {
+                        progressBar.value += (43 / sourceLevel_1.length)
+                        updateLoad()
+                        if ((sourceLevel_1.length - 1) == src_lvl_1_index) {
+
+                        }
+                      }
+                    })
+                  }
+                }
+              }
+            })
+          }
         }
-        
-        scripts.connect('scripts/property/src_level_1.js').onload = function() {
-          sourceLevel_1.forEach(function(src) {
-            src.load()
-            src.onload = function() {
-              progressBar.value += (47 / sourceLevel_1.length)
-              updateLoad()
-            }
-          })
-        }
-        
       }
     }
   }

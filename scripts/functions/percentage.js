@@ -1,3 +1,7 @@
+function getPrectage(key, value){
+  return (key/100)*value
+}
+
 function setInPercentage(key, string, percentage, value) {
   key[string] = (value / 100) * percentage
   return key[string]

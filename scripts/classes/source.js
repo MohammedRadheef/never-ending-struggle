@@ -11,7 +11,9 @@ class GameSource {
     var self = this;
     if (self.type == 'image') {
       self.tag.src = self.url
-      self.tag.onload = self.onload
+      self.tag.onload = function() {
+        self.onload()
+      }
       self.loaded = true
     } else {
       var sheet = readSheet(self.url)

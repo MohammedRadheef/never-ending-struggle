@@ -56,7 +56,7 @@ let scripts = {
   pause() {
     canvas.end_loop();
 
-    this.loopers.forEach(function (value) {
+    this.loopers.forEach(function(value) {
       if (value.isLoop == true) {
         clearInterval(value.handleCode);
       } else {
@@ -68,7 +68,7 @@ let scripts = {
     canvas.start_loop();
 
     var self = this;
-    this.loopers.forEach(function (value) {
+    this.loopers.forEach(function(value) {
       if (value.isLoop == true) {
         value.handleCode = setInterval(value.handle, value.timeStamp);
       } else {
@@ -84,13 +84,17 @@ scripts.play();
 graphical.scale = 1.5;
 graphical.update();
 
-canvas.addLoop(function () {
-  canvas.entityStore.forEach(function (entity) {
-    entity.scale = { x: graphical.scale, y: graphical.scale };
+canvas.addLoop(function() {
+  canvas.entityStore.forEach(function(entity, entityIndex) {
+    if (entity.type) {
+      entity.scale = { x: graphical.scale, y: graphical.scale }
+    } else {
+      canvas.entityStore.splice((entityIndex), 1)
+    };
   });
 });
 
-window.onresize = window.onorientationchange = function () {
+window.onresize = window.onorientationchange = function() {
   graphical.update();
 };
 
@@ -107,10 +111,10 @@ function fullScreen(element) {
 
   window.screen.orientation
     .lock("landscape")
-    .then(function () {
+    .then(function() {
       console.log("done");
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.warn(error);
     });
 }
@@ -118,48 +122,49 @@ function fullScreen(element) {
 canvas.start_loop();
 canvas.specialRender();
 
-/*
 
 var development = {
   x: 0,
   y: 0,
-  msg: 'Running'
+  msg: 'Running',
+  active: false
 }
 
-function msg(msg){
+function msg(msg) {
   development.msg = msg
 }
 
-var textLog = new entity({
-  type: 'text',
-  text: 'app\nDem',
-  x: 8,
-  y: 8,
-  z: 1000000,
-  fontSize: 13,
-  splitLine: true,
-  fill: '#fff',
-  font: 'monospace',
-  shadow: 5
-})
+if (development.active) {
+  var textLog = new entity({
+    type: 'text',
+    text: 'app\nDem',
+    x: 8,
+    y: 8,
+    z: 1000000,
+    fontSize: 13,
+    splitLine: true,
+    fill: '#fff',
+    font: 'monospace',
+    shadow: 5
+  })
 
-textLog.data.onupdated = function(){
-  var TEXT_LOG = `
+  textLog.data.onupdated = function() {
+    var TEXT_LOG = `
   x: ${development.x}
   y: ${development.y}
   
   ${development.msg}`
-  textLog.data.text = TEXT_LOG
-}
+    textLog.data.text = TEXT_LOG
+  }
 
-window.ontouchmove = window.ontouchstart = window.onmousemove = function(e){
-  if(e.changedTouches){
-    e = e.changedTouches[0]
-  } else if (e.touches){
-    e = e.touches[0]
-  } 
-  
-  development.x = e.clientX 
-  development.y = e.clientY
+  window.ontouchmove = window.ontouchstart = window.onmousemove = function(e) {
+    if (e.changedTouches) {
+      e = e.changedTouches[0]
+    } else if (e.touches) {
+      e = e.touches[0]
+    }
+
+    development.x = e.clientX
+    development.y = e.clientY
+  }
 }
-*/
