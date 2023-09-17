@@ -83,6 +83,7 @@ var loadingPageScript = new MangoScript("loading", function () {
     progressBar.y = window.innerHeight - 60;
   };
 
+
   function updateLoad() {
     if (progressBar.value >= 100) {
       progressBar.destroy();
@@ -107,8 +108,16 @@ var loadingPageScript = new MangoScript("loading", function () {
 
               commonSources.forEach(function (src, srcIndex) {
                 src.load();
-                src.onload = function () {
-                  progressBar.value += 50 / commonSources.length;
+                src.tag.onerror = function() {
+                  function err() {
+                    if (confirm('ERR: Error Loading Failed. please retry')) {
+                      window.location.reload();
+                    } else { err() }
+                  }
+                  err()
+                }
+                src.onload = function() {
+                  progressBar.value += 51 / commonSources.length;
                   updateLoad();
                   if (srcIndex == commonSources.length - 1) {
                     scripts.connect("scripts/property/src_level_1.js").onload =
