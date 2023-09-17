@@ -1,4 +1,4 @@
-function getPrectage(key, value) {
+function getPercentage(key, value) {
   return (key / 100) * value;
 }
 

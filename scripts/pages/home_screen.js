@@ -1,4 +1,4 @@
-const homeMangoScript = new MangoScript("homeUI", function () {
+const homeMangoScript = new MangoScript("homeUI", function() {
   var background_image = new entity({
     type: "image",
     width: window.innerWidth,
@@ -37,7 +37,7 @@ const homeMangoScript = new MangoScript("homeUI", function () {
     img: SRC_ICON_SHEET.tag,
   });
 
-  background_image.data.onupdated = function () {
+  background_image.data.onupdated = function() {
     background_image.data.width = window.innerWidth;
     background_image.data.height = window.innerHeight;
   };
@@ -63,37 +63,70 @@ const homeMangoScript = new MangoScript("homeUI", function () {
   });
 
   var cardOffline = new entity({
-    width: getPrectage(window.innerWidth, 20),
-    height: getPrectage(window.innerHeight, 60),
+    width: getPercentage(window.innerWidth, 20),
+    height: getPercentage(window.innerHeight, 60),
     type: "image",
     imageSizeAuto: true,
     imageURL: "images/ui/color_icons/FrameSquare.png",
-    x: getPrectage(window.innerWidth, 30),
-    y: 80,
+    x: getPercentage(window.innerWidth, 30),
+    y: getPercentage(window.innerHeight, 20),
     strokeWidth: 5,
     stroke: COLOR_GREEN,
     fill: "#444",
   });
 
-  var IH = new entity({
+  var hammerIcon = new entity({
     type: "image",
     width: 100,
     height: 100,
-    x: getPrectage(window.innerWidth, 30) + getPrectage(160, 18),
-    y: 130,
+    x: getPercentage(window.innerWidth, 30) + getPercentage(160, 18),
+    y: getPercentage(window.innerHeight, 36),
     imageSizeAuto: true,
     mergeimageURL: false,
     img: SRC_ICON_HAMMER.tag,
   });
 
+  var offlineText = new entity({
+    type: 'text',
+    x: getPercentage(window.innerWidth, 38),
+    y: getPercentage(window.innerHeight, 39) + 100,
+    text: 'Offline',
+    font: 'lg',
+    fill: '#fff',
+    fontSize: 12
+  })
+
   var cardOnline = new entity({
-    width: 160,
-    height: getPrectage(window.innerHeight, 60),
-    type: "roundRect",
-    x: getPrectage(window.innerWidth, 30) + 190,
-    y: 80,
+    width: getPercentage(window.innerWidth, 20),
+    height: getPercentage(window.innerHeight, 60),
+    type: "image",
+    imageSizeAuto: true,
+    imageURL: "images/ui/color_icons/FrameSquare.png",
+    x: getPercentage(window.innerWidth, 30) + 190,
+    y: getPercentage(window.innerHeight, 20),
     strokeWidth: 5,
     stroke: COLOR_GREEN,
-    fill: "#333",
+    fill: "#444",
+  });
+  
+  var onlineText = new entity({
+    type: 'text',
+    x: getPercentage(window.innerWidth, 38)+190,
+    y: getPercentage(window.innerHeight, 39) + 100,
+    text: 'Online',
+    font: 'lg',
+    fill: '#fff',
+    fontSize: 12
+  });
+  
+  var toolsIcon = new entity({
+    type: "image",
+    width: 100,
+    height: 100,
+    x: getPercentage(window.innerWidth, 30) + getPercentage(160, 18)+190,
+    y: getPercentage(window.innerHeight, 36),
+    imageSizeAuto: true,
+    mergeimageURL: false,
+    img: SRC_ICON_TOOLS.tag,
   });
 });
