@@ -1,4 +1,4 @@
-var loadingPageScript = new MangoScript("loading", function () {
+var loadingPageScript = new MangoScript("loading", function() {
   var blackScreen = new entity({
     width: 10000,
     height: 10000,
@@ -42,14 +42,14 @@ var loadingPageScript = new MangoScript("loading", function () {
     });
   }
 
-  window.onclick = function () {
+  window.onclick = function() {
     fullScreen(document.querySelector("body"));
     blankScreen.data.destroy();
     textInfo.data.destroy();
-    window.onclick = function () {};
+    window.onclick = function() {};
   };
 
-  background_image.data.onupdated = function () {
+  background_image.data.onupdated = function() {
     background_image.data.width = window.innerWidth;
     background_image.data.height = window.innerHeight;
   };
@@ -70,7 +70,7 @@ var loadingPageScript = new MangoScript("loading", function () {
     fontSize: 14,
   });
 
-  loadingText.data.onupdated = function () {
+  loadingText.data.onupdated = function() {
     loadingText.data.x = window.innerWidth / 2 - 46;
     loadingText.data.y = window.innerHeight - 30;
     loadingText.data.text = (
@@ -95,24 +95,24 @@ var loadingPageScript = new MangoScript("loading", function () {
   }
 
   // code for loading contents
-  scripts.connect("scripts/functions/readfile.js").onload = function () {
+  scripts.connect("scripts/functions/readfile.js").onload = function() {
     progressBar.value = 6;
-    scripts.connect("scripts/classes/source.js").onload = function () {
-      scripts.connect("scripts/classes/sound.js").onload = function () {
-        scripts.connect("scripts/pages/home_screen.js").onload = function () {
+    scripts.connect("scripts/classes/source.js").onload = function() {
+      scripts.connect("scripts/classes/sound.js").onload = function() {
+        scripts.connect("scripts/pages/home_screen.js").onload = function() {
           // new Sound('music/m.mp3').play()
           scripts.connect("scripts/property/common.sources.js").onload =
-            function () {
+            function() {
               progressBar.value = 7;
               updateLoad();
 
-              commonSources.forEach(function (src, srcIndex) {
+              commonSources.forEach(function(src, srcIndex) {
                 src.load();
                 src.tag.onerror = function() {
                   function err() {
                     if (confirm('ERR: Error Loading Failed. please retry')) {
                       window.location.reload();
-                    } else { err() }
+                    } else {err()}
                   }
                   err()
                 }
@@ -121,17 +121,16 @@ var loadingPageScript = new MangoScript("loading", function () {
                   updateLoad();
                   if (srcIndex == commonSources.length - 1) {
                     scripts.connect("scripts/property/src_level_1.js").onload =
-                      function () {
-                        sourceLevel_1.forEach(function (
+                      function() {
+                        sourceLevel_1.forEach(function(
                           src_lvl_1,
                           src_lvl_1_index
                         ) {
                           src_lvl_1.load();
-                          src_lvl_1.onload = function () {
+                          src_lvl_1.onload = function() {
                             progressBar.value += 43 / sourceLevel_1.length;
                             updateLoad();
-                            if (sourceLevel_1.length - 1 == src_lvl_1_index) {
-                            }
+                            if (sourceLevel_1.length - 1 == src_lvl_1_index) {}
                           };
                         });
                       };
