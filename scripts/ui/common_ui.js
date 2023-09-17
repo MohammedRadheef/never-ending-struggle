@@ -54,7 +54,7 @@ class Button {
     this.onclick = () => {};
     this.on = this.background.data.on;
 
-    this.background.data.on("click", function(e) {
+    this.background.data.on("click", function (e) {
       self.bgGradient = app.createGradient(
         self.x + self.background.data.width / 2,
         self.y,
@@ -68,7 +68,7 @@ class Button {
       self.background.data.fill = self.bgGradient.gradient;
     });
 
-    this.update = function() {
+    this.update = function () {
       this.background.data.width = this.text.data.getWidth() + 8;
 
       this.background.data.x = this.x;
@@ -92,7 +92,7 @@ class Button {
 
     scripts.loopers.push(
       new LooperScript(
-        function() {
+        function () {
           self.update();
         },
         true,
@@ -159,7 +159,7 @@ class ProgressBar {
       stroke: "transparent",
     });
 
-    this.update = function() {
+    this.update = function () {
       self.outline.data.width = self.width;
       self.outline.data.height = self.height;
       self.outline.data.x = self.x;
@@ -185,94 +185,94 @@ class ProgressBar {
           COLOR_GREEN,
         ]
       ).gradient),
-      (self.lightbox.data.x = self.x + 4);
+        (self.lightbox.data.x = self.x + 4);
       self.lightbox.data.y = self.y + 3;
       self.lightbox.data.width = (self.width / 102.5) * self.value - 7;
       self.lightbox.data.height = (this.height / 100) * 20;
     };
 
-    this.track.data.onupdated = function() {
+    this.track.data.onupdated = function () {
       self.update();
     };
-    
-    this.destroy = function(){
+
+    this.destroy = function () {
       var self = this;
-      self.lightbox.data.destroy()
-      self.track.data.destroy()
-      self.outline.data.destroy()
-    }
+      self.lightbox.data.destroy();
+      self.track.data.destroy();
+      self.outline.data.destroy();
+    };
   }
 }
 
 class Selector {
-  constructor(names = ['null'], values = ['null']) {
+  constructor(names = ["null"], values = ["null"]) {
     this.x = 50;
     this.y = 50;
     this.width = 140;
-    this.names = names
-    this.values = values
-    this.value = values[0]
-    this.name = names[0]
-    this.onchange = () => {}
+    this.names = names;
+    this.values = values;
+    this.value = values[0];
+    this.name = names[0];
+    this.onchange = () => {};
     var self = this;
 
     this.background = new entity({
-      type: 'roundRect',
+      type: "roundRect",
       x: this.x,
       y: this.y,
       width: this.width,
       height: 30,
       arcLevel: 3,
       strokeWidth: 3,
-      stroke: '#ccc',
-      fill: '#fff',
-    })
+      stroke: "#ccc",
+      fill: "#fff",
+    });
 
     this.selectedText = new entity({
       text: this.name,
       x: this.x + 8,
       y: this.y + 8,
       fontSize: 14,
-      font: 'lg',
-      type: 'text',
-      fill: COLOR_BLACK
-    })
+      font: "lg",
+      type: "text",
+      fill: COLOR_BLACK,
+    });
 
-    this.selectionBoxs = []
-    this.selectionBoxTexts = []
+    this.selectionBoxs = [];
+    this.selectionBoxTexts = [];
 
-    this.limitChar = 30
-    this.addDots = false
+    this.limitChar = 30;
+    this.addDots = false;
 
     this.icon = new entity({
-      type: 'image',
+      type: "image",
       x: 425,
       y: 63,
       width: 50,
       height: 50,
       translate: {
         x: (this.x + (this.width - 24)) * graphical.scale,
-        y: (this.y + 5) * graphical.scale
+        y: (this.y + 5) * graphical.scale,
       },
       dx: -24,
       dy: -0,
-      rotate: (270 * (Math.PI / 180)),
+      rotate: 270 * (Math.PI / 180),
       dWidth: 20,
-      filter: 'brightness(20%)',
+      filter: "brightness(20%)",
       dHeight: 20,
-      imageURL: 'images/ui/icons.png'
-    })
+      imageURL: "images/ui/icons.png",
+    });
 
     function bgClick(e) {
-      self.update()
-      self.icon.data.render = false
+      self.update();
+      self.icon.data.render = false;
 
-      self.background.data.height = self.values.length * 30
+      self.background.data.height = self.values.length * 30;
 
       // limited: 150 <= (self.values.length * 30) ? 150 : self.values.length * 30
-      self.selectedText.data.render = false
+      self.selectedText.data.render = false;
 
-      // limitation are disabled 
+      // limitation are disabled
       /*
       if (150 <= (self.values.length * 30)) {
         var startY = 0;
@@ -305,218 +305,232 @@ class Selector {
       }
       */
 
-      self.selectionBoxs = []
-      self.selectionBoxTexts = []
+      self.selectionBoxs = [];
+      self.selectionBoxTexts = [];
 
       function addBoxAndTexts() {
-        self.names.forEach(function(name, nameIndex) {
+        self.names.forEach(function (name, nameIndex) {
           self.selectionBoxs.push(
             new entity({
               x: self.name == name ? self.x + 1 : self.x,
-              y: self.name == name ? (self.y + 30 * (nameIndex)) + 1 : self.y + 30 * (nameIndex),
-              type: 'roundRect',
+              y:
+                self.name == name
+                  ? self.y + 30 * nameIndex + 1
+                  : self.y + 30 * nameIndex,
+              type: "roundRect",
               width: self.name == name ? self.width - 2 : self.width,
               arcLevel: 3,
-              fill: self.name == name ? '#E4E4E4' : '#fff',
+              fill: self.name == name ? "#E4E4E4" : "#fff",
               stroke: COLOR_TRANSPARENT,
               height: 30,
               z: 400,
               //render: *limited* (nameIndex >= 5 ? false : true),
-              sIndex: nameIndex
+              sIndex: nameIndex,
             })
-          )
+          );
 
-          self.update()
+          self.update();
 
           self.selectionBoxTexts.push(
             new entity({
-              text: name.slice(0, self.limitChar) + (self.addDots ? '...' : ''),
+              text: name.slice(0, self.limitChar) + (self.addDots ? "..." : ""),
               x: self.x + 8,
-              y: self.y + (30 * (nameIndex + 0)) + 8,
+              y: self.y + 30 * (nameIndex + 0) + 8,
               fontSize: 14,
-              font: 'lg',
-              type: 'text',
+              font: "lg",
+              type: "text",
               z: 401,
               //render: *limited* (nameIndex >= 5 ? false : true),
-              fill: COLOR_DARK_GREY
+              fill: COLOR_DARK_GREY,
             })
-          )
-        })
+          );
+        });
       }
 
-      addBoxAndTexts()
+      addBoxAndTexts();
 
-      self.selectionBoxs.forEach(function(box, index) {
-        box.data.on('touchend', function() {
-          self.name = self.names[index]
-          self.value = self.values[index]
-          self.update()
-          self.onchange()
+      self.selectionBoxs.forEach(function (box, index) {
+        box.data.on("touchend", function () {
+          self.name = self.names[index];
+          self.value = self.values[index];
+          self.update();
+          self.onchange();
           toDefault();
-        })
-      })
+        });
+      });
 
       function clearBoxAndTexts() {
-        self.selectionBoxs.forEach(function(box) {
-          box.data.destroy()
-        })
+        self.selectionBoxs.forEach(function (box) {
+          box.data.destroy();
+        });
 
-        self.selectionBoxTexts.forEach(function(text) {
-          text.data.destroy()
-        })
+        self.selectionBoxTexts.forEach(function (text) {
+          text.data.destroy();
+        });
       }
 
       function toDefault() {
-        self.background.data.height = 30
-        self.selectedText.data.render = true
-        self.icon.data.render = true
+        self.background.data.height = 30;
+        self.selectedText.data.render = true;
+        self.icon.data.render = true;
 
-        clearBoxAndTexts()
+        clearBoxAndTexts();
 
-        self.selectionBoxs = []
-        self.selectionBoxTexts = []
-        self.update()
+        self.selectionBoxs = [];
+        self.selectionBoxTexts = [];
+        self.update();
 
-        document.body.removeEventListener('click', toDefault)
+        document.body.removeEventListener("click", toDefault);
       }
 
-      setTimeout(function() {
-        document.body.addEventListener('click', toDefault)
-      }, 5)
+      setTimeout(function () {
+        document.body.addEventListener("click", toDefault);
+      }, 5);
     }
 
-    this.background.data.on('click', bgClick)
+    this.background.data.on("click", bgClick);
 
-    this.update = function() {
-      self.background.data.x = self.x
-      self.background.data.y = self.y
-      self.background.data.width = self.width
+    this.update = function () {
+      self.background.data.x = self.x;
+      self.background.data.y = self.y;
+      self.background.data.width = self.width;
 
-      self.selectedText.data.x = self.x + 8
-      self.selectedText.data.y = self.y + 8
-      self.selectedText.data.text = self.name
+      self.selectedText.data.x = self.x + 8;
+      self.selectedText.data.y = self.y + 8;
+      self.selectedText.data.text = self.name;
 
       self.icon.data.translate = {
         x: (self.x + (self.width - 24)) * graphical.scale,
-        y: (self.y + 5) * graphical.scale
-      }
-    }
+        y: (self.y + 5) * graphical.scale,
+      };
+    };
 
-    this.update()
-    this.background.data.onupdated = this.update
+    this.update();
+    this.background.data.onupdated = this.update;
   }
 }
 
 class TextInput {
-  constructor(type = 'number' || 'text', placeholder = '') {
-    this.placeholder = placeholder
-    this.input = app.HTML.input(type, 0, 0)
-    this.input.id = 'ID' + Math.floor(Math.random() * 99999)
-    this.input.style.opacity = '0%'
-    this.input.style.position = 'fixed'
-    this.input.style.top = '-1000px'
-    this.input.style.left = '-1000px'
+  constructor(type = "number" || "text", placeholder = "") {
+    this.placeholder = placeholder;
+    this.input = app.HTML.input(type, 0, 0);
+    this.input.id = "ID" + Math.floor(Math.random() * 99999);
+    this.input.style.opacity = "0%";
+    this.input.style.position = "fixed";
+    this.input.style.top = "-1000px";
+    this.input.style.left = "-1000px";
     this.x = 50;
     this.y = 50;
     this.width = 140;
-    this.value = this.input.value
+    this.value = this.input.value;
 
     this.background = new entity({
-      type: 'roundRect',
+      type: "roundRect",
       x: this.x,
       y: this.y,
       width: this.width,
       height: 30,
       arcLevel: 3,
       strokeWidth: 3,
-      stroke: '#ccc',
-      fill: '#fff',
-    })
+      stroke: "#ccc",
+      fill: "#fff",
+    });
 
     this.cursor = new entity({
-      text: '|',
+      text: "|",
       x: this.x + 8,
       y: this.y + 8,
-      fontSize: 'bold ' + 14,
-      font: 'lg',
-      type: 'text',
+      fontSize: "bold " + 14,
+      font: "lg",
+      type: "text",
       render: false,
-      fill: COLOR_BLACK
-    })
+      fill: COLOR_BLACK,
+    });
 
     this.text = new entity({
       text: this.value,
       x: this.x + 8,
       y: this.y + 8,
       fontSize: 14,
-      font: 'lg',
-      type: 'text',
-      fill: COLOR_BLACK
-    })
+      font: "lg",
+      type: "text",
+      fill: COLOR_BLACK,
+    });
 
     this.placeholderText = new entity({
       text: this.placeholder,
       x: this.x + 8,
       y: this.y + 8,
       fontSize: 14,
-      font: 'lg',
-      type: 'text',
-      fill: COLOR_DARK_GREY + '80'
-    })
+      font: "lg",
+      type: "text",
+      fill: COLOR_DARK_GREY + "80",
+    });
 
     var self = this;
 
-    this.background.data.on('click', function() {
-      self.input.focus()
-      self.cursor.data.render = true
-    })
+    this.background.data.on("click", function () {
+      self.input.focus();
+      self.cursor.data.render = true;
+    });
 
-    this.TEXT_WIDTH = new entity({
-      text: 'a',
-      fontSize: 14,
-      font: 'lg',
-      type: 'text',
-      fill: COLOR_BLACK
-    }, false).data.getWidth()
-
-    this.animationCur = true
-
-    this.update = function() {
-      self.background.data.x = self.x
-      self.background.data.y = self.y
-      self.background.data.width = self.width
-
-      self.text.data.x = self.x + 8
-      self.text.data.y = self.y + 8
-      self.text.data.text = self.input.value
-
-      self.placeholderText.data.x = self.x + 8
-      self.placeholderText.data.y = self.y + 8
-      self.placeholderText.data.text = (self.input.value == '' ? self.placeholder : '')
-
-      self.TEXT_WIDTH = new entity({
-        text: self.input.value,
+    this.TEXT_WIDTH = new entity(
+      {
+        text: "a",
         fontSize: 14,
-        font: 'lg',
-        type: 'text',
-        fill: COLOR_BLACK
-      }, false).data.getWidth()
+        font: "lg",
+        type: "text",
+        fill: COLOR_BLACK,
+      },
+      false
+    ).data.getWidth();
+
+    this.animationCur = true;
+
+    this.update = function () {
+      self.background.data.x = self.x;
+      self.background.data.y = self.y;
+      self.background.data.width = self.width;
+
+      self.text.data.x = self.x + 8;
+      self.text.data.y = self.y + 8;
+      self.text.data.text = self.input.value;
+
+      self.placeholderText.data.x = self.x + 8;
+      self.placeholderText.data.y = self.y + 8;
+      self.placeholderText.data.text =
+        self.input.value == "" ? self.placeholder : "";
+
+      self.TEXT_WIDTH = new entity(
+        {
+          text: self.input.value,
+          fontSize: 14,
+          font: "lg",
+          type: "text",
+          fill: COLOR_BLACK,
+        },
+        false
+      ).data.getWidth();
 
       if (self.animationCur) {
-        self.cursor.data.text = ' '
-        setTimeout(function() {
-          self.animationCur = false
-        }, 300)
+        self.cursor.data.text = " ";
+        setTimeout(function () {
+          self.animationCur = false;
+        }, 300);
       } else {
-        self.cursor.data.text = '|'
-        setTimeout(function() {
-          self.animationCur = true
-        }, 300)
+        self.cursor.data.text = "|";
+        setTimeout(function () {
+          self.animationCur = true;
+        }, 300);
       }
 
-      self.cursor.data.x = self.x + (((self.TEXT_WIDTH / self.input.value.length) * self.input.selectionStart)) + 3
-    }
+      self.cursor.data.x =
+        self.x +
+        (self.TEXT_WIDTH / self.input.value.length) *
+          self.input.selectionStart +
+        3;
+    };
 
-    this.background.data.onupdated = this.update
+    this.background.data.onupdated = this.update;
   }
 }
