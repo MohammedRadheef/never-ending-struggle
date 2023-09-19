@@ -17,9 +17,13 @@ const SRC_ICON_ARMOR = new GameSource(
   "image",
   "images/ui/color_icons/armor.png"
 );
+const SRC_ICON_ARMOR_T1 = new GameSource(
+  "image",
+  "images/ui/color_icons/ArmorT2.png"
+);
 const SRC_ICON_ARMOR_T2 = new GameSource(
   "image",
-  "images/ui/color_icons/armorT2.png"
+  "images/ui/color_icons/ArmorT2.png"
 );
 const SRC_ICON_AXE = new GameSource("image", "images/ui/color_icons/axe.png");
 const SRC_ICON_AXE2 = new GameSource("image", "images/ui/color_icons/axe2.png");
@@ -55,11 +59,11 @@ const SRC_ICON_BACKPACK = new GameSource(
 const SRC_ICON_BOW = new GameSource("image", "images/ui/color_icons/bow.png");
 const SRC_ICON_BOW_1 = new GameSource(
   "image",
-  "images/ui/color_icons/bowT1.png"
+  "images/ui/color_icons/BowT1.png"
 );
 const SRC_ICON_BOW_2 = new GameSource(
   "image",
-  "images/ui/color_icons/bowT2.png"
+  "images/ui/color_icons/BowT2.png"
 );
 const SRC_ICON_COIN = new GameSource("image", "images/ui/color_icons/coin.png");
 
@@ -69,11 +73,11 @@ const SRC_ICON_DAGGER = new GameSource(
 );
 const SRC_ICON_DAGGER_T1 = new GameSource(
   "image",
-  "images/ui/color_icons/daggerT1.png"
+  "images/ui/color_icons/DaggerT1.png"
 );
 const SRC_ICON_DAGGER_T2 = new GameSource(
   "image",
-  "images/ui/color_icons/daggerT2.png"
+  "images/ui/color_icons/DaggerT2.png"
 );
 const SRC_ICON_ENVELOPE = new GameSource(
   "image",
@@ -318,6 +322,7 @@ commonSources.push(SRC_HOME_BG_IMG);
 /*commonSources.push(SRC_HOME_BG_IMG_2);
 commonSources.push(SRC_HOME_BG_IMG_3);*/
 commonSources.push(SRC_ICON_ARMOR);
+commonSources.push(SRC_ICON_ARMOR_T1);
 commonSources.push(SRC_ICON_ARMOR_T2);
 commonSources.push(SRC_ICON_AXE);
 commonSources.push(SRC_ICON_AXE2);

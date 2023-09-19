@@ -110,7 +110,7 @@ var loadingPageScript = new MangoScript("loading", function() {
                 src.load();
                 src.tag.onerror = function() {
                   function err() {
-                    if (confirm('ERR: Error Loading Failed. please retry -> '+src.url)) {
+                    if (confirm('ERR: Error Loading Failed. please retry -> '+src.url.slice(src.url.lastIndexOf('/'), src.url.length))) {
                       window.location.reload();
                     } else {err()}
                   }
