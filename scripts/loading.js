@@ -100,44 +100,46 @@ var loadingPageScript = new MangoScript("loading", function() {
     scripts.connect("scripts/classes/source.js").onload = function() {
       scripts.connect("scripts/classes/sound.js").onload = function() {
         scripts.connect("scripts/pages/home_screen.js").onload = function() {
-          // new Sound('music/m.mp3').play()
-          scripts.connect("scripts/property/common.sources.js").onload =
-            function() {
-              progressBar.value = 7;
-              updateLoad();
+          scripts.connect("scripts/pages/play_game.js").onload = function() {
+            // new Sound('music/m.mp3').play()
+            scripts.connect("scripts/property/common.sources.js").onload =
+              function() {
+                progressBar.value = 7;
+                updateLoad();
 
-              commonSources.forEach(function(src, srcIndex) {
-                src.load();
-                src.tag.onerror = function() {
-                  function err() {
-                    if (confirm('ERR: Error Loading Failed. please retry -> '+src.url.slice(src.url.lastIndexOf('/'), src.url.length))) {
-                      window.location.reload();
-                    } else {err()}
+                commonSources.forEach(function(src, srcIndex) {
+                  src.load();
+                  src.tag.onerror = function() {
+                    function err() {
+                      if (confirm('ERR: Error Loading Failed. please retry -> ' + src.url.slice(src.url.lastIndexOf('/'), src.url.length))) {
+                        window.location.reload();
+                      } else { err() }
+                    }
+                    err()
                   }
-                  err()
-                }
-                src.onload = function() {
-                  progressBar.value += 51 / commonSources.length;
-                  updateLoad();
-                  if (srcIndex == commonSources.length - 1) {
-                    scripts.connect("scripts/property/src_level_1.js").onload =
-                      function() {
-                        sourceLevel_1.forEach(function(
-                          src_lvl_1,
-                          src_lvl_1_index
-                        ) {
-                          src_lvl_1.load();
-                          src_lvl_1.onload = function() {
-                            progressBar.value += 43 / sourceLevel_1.length;
-                            updateLoad();
-                            if (sourceLevel_1.length - 1 == src_lvl_1_index) {}
-                          };
-                        });
-                      };
-                  }
-                };
-              });
-            };
+                  src.onload = function() {
+                    progressBar.value += 51 / commonSources.length;
+                    updateLoad();
+                    if (srcIndex == commonSources.length - 1) {
+                      scripts.connect("scripts/property/src_level_1.js").onload =
+                        function() {
+                          sourceLevel_1.forEach(function(
+                            src_lvl_1,
+                            src_lvl_1_index
+                          ) {
+                            src_lvl_1.load();
+                            src_lvl_1.onload = function() {
+                              progressBar.value += 43 / sourceLevel_1.length;
+                              updateLoad();
+                              if (sourceLevel_1.length - 1 == src_lvl_1_index) {}
+                            };
+                          });
+                        };
+                    }
+                  };
+                });
+              };
+          };
         };
       };
     };
