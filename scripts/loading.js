@@ -85,13 +85,13 @@ var loadingPageScript = new MangoScript("loading", function() {
 
 
   function updateLoad() {
-    if (progressBar.value >= 100) {
-      progressBar.destroy();
-      loadingText.data.destroy();
-      background_image.data.destroy();
-      homeMangoScript.run();
-      console.log("LOAD COMPLETED \n sorry, this is development mode");
-    }
+    // if (progressBar.value >= 100) {
+    //   progressBar.destroy();
+    //   loadingText.data.destroy();
+    //   background_image.data.destroy();
+    //   homeMangoScript.run();
+    //   console.log("LOAD COMPLETED \n sorry, this is development mode");
+    // }
   }
 
   // code for loading contents
