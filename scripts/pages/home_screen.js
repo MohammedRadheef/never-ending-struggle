@@ -17,7 +17,7 @@ const homeMangoScript = new MangoScript("homeUI", function() {
       entity.data.destroy();
     })
     playMangoScript.run();
-  }, 100)
+  }, 1000)
 
   var contact_icon = new entity({
     type: "image",
