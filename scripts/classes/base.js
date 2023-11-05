@@ -18,7 +18,7 @@ class Base {
       this.isUsing = true;
     };
     this.entity = new entity({
-      
+      type: 'path',
     })
   }
 }
